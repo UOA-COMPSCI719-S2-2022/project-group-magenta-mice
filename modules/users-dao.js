@@ -1,18 +1,20 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-
 /**
  * Inserts the given user into the database. Then, reads the ID which the database auto-assigned, and adds it
  * to the user.
  * 
  * @param user the user to insert
  */
- async function createUser(user) {
+
+async function createUser(user) {
     const db = await dbPromise;
 
     const result = await db.run(SQL`
-        insert into users (username, password, name) values(${user.username}, ${user.password}, ${user.name})`);
+        insert into users (username, password, name, birthday, email, avatar, introduction) values
+        (${user.username}, ${user.password}, ${user.name},${user.birthday}, ${user.email}, ${user.avatar}, ${user.introduction})`);
+
 
     // Get the auto-generated ID value, and assign it back to the user object.
     user.id = result.lastID;
@@ -68,6 +70,7 @@ async function retrieveUserWithAuthToken(authToken) {
 }
 
 /**
+
  * Gets the user with the given username from the database.
  * If there is no such user, undefined will be returned.
  * 
@@ -95,7 +98,9 @@ async function retrieveAllUsers() {
 }
 
 /**
+
  * Updates the given user in the database, not including auth token
+ 
  * 
  * @param user the user to update
  */

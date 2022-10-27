@@ -34,11 +34,11 @@ const { addUserToLocals } = require("./middleware/auth-middleware.js");
 app.use(addUserToLocals);
 
 // Setup routes
+app.use(require("./routes/application-routes.js"));
+app.use(require("./routes/create-account-routes.js"));
+
 const authRouter = require("./routes/auth-routes.js");
 app.use(authRouter);
-
-const appRouter = require("./routes/application-routes.js");
-app.use(appRouter);
 
 // Start the server running.
 app.listen(port, function () {
