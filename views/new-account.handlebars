@@ -4,29 +4,30 @@
     {{/if}}
 
     <h1>New Account</h1>
-    <form action="./submit" method="POST">
+    <form name="newForm" action="./submit" method="POST">
         <p>Choose your avatar:
-            <label><input type="radio" name="avatar" id="blue" value="blue.png" {{#if avatar}}checked{{/if}}><img src="./avatar/blue.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="turtle" value="turtle.png"><img src="./avatar/turtle.png" width="150"></label>
-            <label><input type="radio" name="avatar" id="mouse" value="mouse.png"> <img src="./avatar/mouse.png" width="90"></label>
+            <label><input type="radio" name="avatar" id="blue" value="blue.png" {{#if B}}checked {{/if}} ><img src="./avatar/blue.png" width="90"></label>
+            <label><input type="radio" name="avatar" id="girl" value="girl.png" {{#if G}}checked {{/if}}><img src="./avatar/girl.png" width="90"></label>
+            <label><input type="radio" name="avatar" id="pink" value="pink.png" {{#if P}}checked {{/if}}> <img src="./avatar/pink.png" width="90"></label>
+            <label><input type="radio" name="avatar" id="turtle" value="turtle.png" {{#if T}}checked {{/if}}><img src="./avatar/turtle.png" width="150"></label>
+            <label><input type="radio" name="avatar" id="mouse" value="mouse.png" {{#if M}}checked {{/if}}> <img src="./avatar/mouse.png" width="90"></label>
             
         </p>
         <p>
             <label for="txtUsername">Username:</label>
-            <input type="text" name="username" id="txtUsername" placeholder="must be unique" value={{username}} required>
+            <input type="text" name="username" id="txtUsername" placeholder="must be unique" value={{username}}>
         </p>
         
         
         <p>
             <label for="txtPassword">Choose password:</label>
-            <input type="password" name="password" id="txtPassword" placeholder="any combination of a.Z.1.8.$" value={{passowrd}} required>
+            <input type="password" name="password" id="txtPassword" placeholder="any combination of a.Z.1.8.$" value={{passowrd}}>
         </p>
 
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
-            <input type="password" name="confirmedPassword" id="txtPasswordRe" placeholder="must be the same as the chosen one" value={{confirmedPassword}} required>
+            <input type="password" name="confirmedPassword" id="txtPasswordRe" placeholder="must be the same as the chosen one" 
+            value={{confirmedPassword}} >
         </p>
         
         
@@ -43,17 +44,29 @@
 
         <p>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="xx@yy" value={{email}} required>
+            <input type="email" name="email" id="email" placeholder="xx@yy" value={{email}}>
         </p>
 
         <p>
             <label for="txtIntroduction">Self Introduction:</label>
-            <textarea id="txtIntroduction" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." value={{introduction}}></textarea>
+            <textarea id="txtIntroduction" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." >{{introduction}}</textarea>
         </p>
+        
 
         <p>
-            <button type="submit">Create account</button>
+            <button type="submit" onsubmit="checkSamePasswords()">Create account</button>
         </p>
+        <script>
+            function checkedSamePasswords(){
+                if(document.newForm.password !== document.newForm.confirmedPassword){
+                    return false;
+                }else{
+                    return true;
+                }
+                
+
+            }
+        </script>
     </form>
 
 </div>

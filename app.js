@@ -36,9 +36,8 @@ app.use(addUserToLocals);
 // Setup routes
 app.use(require("./routes/application-routes.js"));
 app.use(require("./routes/create-account-routes.js"));
-
-const authRouter = require("./routes/auth-routes.js");
-app.use(authRouter);
+app.use(require("./routes/auth-routes.js"));
+app.use(require("./routes/admin-routes.js"));
 
 /* New Route to the TinyMCE Node module */
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
