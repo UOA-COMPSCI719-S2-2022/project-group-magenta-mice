@@ -7,12 +7,14 @@ const dbPromise = require("./database.js");
  * 
  * @param user the user to insert
  */
+
 async function createUser(user) {
     const db = await dbPromise;
 
     const result = await db.run(SQL`
         insert into users (username, password, name, birthday, email, avatar, introduction) values
         (${user.username}, ${user.password}, ${user.name},${user.birthday}, ${user.email}, ${user.avatar}, ${user.introduction})`);
+
 
     // Get the auto-generated ID value, and assign it back to the user object.
     user.id = result.lastID;
@@ -68,6 +70,23 @@ async function retrieveUserWithAuthToken(authToken) {
 }
 
 /**
+
+ * Gets the user with the given username from the database.
+ * If there is no such user, undefined will be returned.
+ * 
+ * @param {string} username the user's username
+ */
+async function retrieveUserByUsername(username) {
+    const db = await dbPromise;
+
+    const user = await db.get(SQL`
+        select * from users
+        where username = ${username}`);
+
+    return user;
+}
+
+/**
  * Gets an array of all users from the database.
  */
 async function retrieveAllUsers() {
@@ -79,7 +98,9 @@ async function retrieveAllUsers() {
 }
 
 /**
- * Updates the given user in the database, not including auth token (but the code includes@)
+
+ * Updates the given user in the database, not including auth token
+ 
  * 
  * @param user the user to update
  */
@@ -112,6 +133,7 @@ module.exports = {
     retrieveUserById,
     retrieveUserWithCredentials,
     retrieveUserWithAuthToken,
+    retrieveUserByUsername,
     retrieveAllUsers,
     updateUser,
     deleteUser

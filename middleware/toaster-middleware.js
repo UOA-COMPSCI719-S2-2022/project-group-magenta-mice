@@ -10,4 +10,6 @@ function toaster(req, res, next) {
     next();
 }
 
-module.exports = toaster;
+module.exports = {
+    toaster
+};

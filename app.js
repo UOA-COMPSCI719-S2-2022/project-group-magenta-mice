@@ -28,13 +28,17 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
 // Use the toaster middleware
-app.use(require("./middleware/toaster-middleware.js"));
+const { toaster } = require("./middleware/toaster-middleware.js");
+app.use(toaster);
+const { addUserToLocals } = require("./middleware/auth-middleware.js");
+app.use(addUserToLocals);
 
 // Setup routes
 app.use(require("./routes/application-routes.js"));
 app.use(require("./routes/create-account-routes.js"));
 
-
+const authRouter = require("./routes/auth-routes.js");
+app.use(authRouter);
 
 // Start the server running.
 app.listen(port, function () {
