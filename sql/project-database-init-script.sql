@@ -4,7 +4,11 @@
  * required.
  */
 
-drop table if exists messages;
+drop table if exists articles;
+
+
+
+
 drop table if exists users;
 
 create table users (
@@ -19,17 +23,26 @@ create table users (
                        avatar varchar(32)
                    );
 
-create table messages (
 
-                          id integer not null primary key,
-                          senderId integer not null,
-                          receiverId integer not null,
-                          timestamp timestamp not null,
-                          content varchar(256) not null,
-                          foreign key (senderId) references users(id),
-                          foreign key (receiverId) references users(id)
+
+
+
+create table articles (
+	id integer not null primary key,
+	title varchar(128) not null,
+	content text not null,
+	author varchar(64) not null,
+	timestamp timestamp not null,
+	FOREIGN key (author) REFERENCES users (name)
 );
 
+insert into test (stuff) values
+    ('Things'),
+    ('More things');
+	
+insert into articles (title, content, author, datePosted) VALUES
+('Article 1', 'Content 1', 'Author 1', '2013');
+=======
 
 insert into users (id, username, password, name, birthday, email, introduction) values
                                                      (1, 'user1', 'pa55word', 'Alice', 1983-04-28, 'tianshu123@gmai.com','afiohsfnwao;asfawsf'),
@@ -40,4 +53,5 @@ insert into messages (id, senderId, receiverId, timestamp, content) values
                                                                         (2, 2, 1, datetime('2021-05-15 15:02:00'), 'Hi, Alice!'),
                                                                         (3, 1, 2, datetime('2021-05-15 15:04:00'), 'I like pie.'),
                                                                         (4, 2, 1, datetime('2021-05-15 15:10:00'), 'COMPSCI 719 is awesome! And I like pie also too.');
+
 

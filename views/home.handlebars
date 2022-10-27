@@ -1,9 +1,21 @@
 <div class="container">
 
-    <h1>Hello, {{user.name}}!</h1>
-    <p>This is your homepage!</p>
-    <p>Click <a href="./logout">here</a> to log out.</p>
 
-  
+    <div>
+        <h1>All Articles:</h1>
+    </div>
 
+    <div>
+        <ul>
+            {{#each articles}}
+            <li>
+                <h2>{{this.title}}</h2>
+                <h3>Written by {{this.author}}</h3>
+                <h4>Posted on {{this.timestamp}}</h4>
+                <p>{{this.content}}</p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    
 </div>

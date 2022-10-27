@@ -1,0 +1,30 @@
+<div class="container">
+
+    <div>
+        <h1>My Articles:</h1>
+        <button type="button">Create New Article</button>
+    </div>
+    
+    <div>
+        {{#if articles}}
+        <ul>
+            {{#each allTestData}}
+            <li>
+                <h3>Header!</h3>
+                <h4>Written by AUTHOR</h4>
+                <h4>Posted on DATE</h4>
+                <p>{{this.stuff}}</p>
+            </li>
+            {{/each}}
+        </ul>
+    
+        <button type="button">Edit</button>
+        <button type="button">Delete</button>
+    
+        {{else}}
+        <p>You have no articles!</p>
+        <button type="button">Create New Article</button>
+        {{/if}}
+    </div>
+
+</div>
