@@ -33,6 +33,9 @@ app.use(require("./middleware/toaster-middleware.js"));
 // Setup routes
 app.use(require("./routes/application-routes.js"));
 
+/* New Route to the TinyMCE Node module */
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 // Start the server running.
 app.listen(port, function () {
     console.log(`App listening on port ${port}!`);
