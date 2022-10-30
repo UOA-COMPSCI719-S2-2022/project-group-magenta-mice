@@ -1,7 +1,7 @@
 const express = require("express");
-
 const router = express.Router();
 const usersDao = require("../modules/users-dao.js");
+const bcrypt = require("bcrypt");
 
 function keepUnsuccessfulPasswords(req, res, next) {
 
@@ -39,10 +39,12 @@ router.get("/newAccount", keepUnsuccessfulPasswords, function (req, res) {
 
 // Create a new account w/ the submitted data
 router.post("/submit", async function(req, res){
+    // generate salt to hash password
+    const salt = await bcrypt.genSalt(10);
     const user ={
         username: req.body.username,
-        password: req.body.password,
-        confirmedPassword: req.body.confirmedPassword,
+        password: await bcrypt.hash(req.body.password, salt),
+        confirmedPassword: await bcrypt.hash(req.body.confirmedPassword, salt),
         name: req.body.name,
         birthday: req.body.birthday,
         email: req.body.email,
