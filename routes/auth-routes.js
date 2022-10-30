@@ -164,32 +164,6 @@ router.post("/edit", async function (req, res) {
 });
 
 
-// Account creation
-router.get("/newAccount", function (req, res) {
-    res.render("new-account");
-})
 
-router.post("/newAccount", async function (req, res) {
-
-    // generate salt to hash password
-    const salt = await bcrypt.genSalt(10);
-
-    const user = {
-        username: req.body.username,
-        password: await bcrypt.hash(req.body.password, salt),
-        name: req.body.name
-    };
-
-    try {
-        await userDao.createUser(user);
-        res.setToastMessage("Account creation successful. Please login using your new credentials.");
-        res.redirect("/login");
-    }
-    catch (err) {
-        res.setToastMessage("That username was already taken!");
-        res.redirect("/newAccount");
-    }
-
-});
 
 module.exports = router;
