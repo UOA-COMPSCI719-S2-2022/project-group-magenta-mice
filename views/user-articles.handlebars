@@ -1,8 +1,11 @@
+ <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/main.css">
+
 <div class="container">
 
     <div>
         <h1>My Articles:</h1>
-        <button type="button">Create New Article</button>
+        <button type="button" class="btn">Create New Article</button>
     </div>
     
     <div>
@@ -18,12 +21,12 @@
             {{/each}}
         </ul>
     
-        <button type="button">Edit</button>
-        <button type="button">Delete</button>
+        <button type="button" class="btn">Edit</button>
+        <button type="button" class="btn">Delete</button>
     
         {{else}}
         <p>You have no articles!</p>
-        <button type="button">Create New Article</button>
+        <button type="button" class="btn">Create New Article</button>
         {{/if}}
     </div>
 

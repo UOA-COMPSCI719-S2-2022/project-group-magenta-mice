@@ -1,4 +1,6 @@
 <script type="text/javascript" src="./tinymce/tinymce.min.js"></script>
+ <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/main.css">
 
 <script type="text/javascript">
     tinymce.init({
@@ -43,10 +45,13 @@
 });
 
 </script>
-
+<div id="articles">
 <h1>New Article</h1>
+<div class="container">
 <form method="post">
     <label for "title"><h2>Title:</h2></label>
-    <input type="text" id="title" name="title"><br>
-    <textarea id="article">Your Article Here</textarea>
+    <input type="text" id="title" class="txtbox" name="title"><br>
+    <textarea id="article" class="txtbox">Your Article Here</textarea>
 </form>
+</div>
+</div>

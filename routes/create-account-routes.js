@@ -55,7 +55,7 @@ router.post("/submit", async function(req, res){
     res.cookie("userCookie", user);
 
     if(user.password !== user.confirmedPassword){
-        res.setToastMessage("Passowrds must be the same!");
+        res.setToastMessage("Passwords must be the same!");
         res.redirect("./newAccount");
 
     }else if(user.password === "" && user.confirmedPassword === ""){
