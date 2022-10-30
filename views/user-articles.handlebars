@@ -5,28 +5,36 @@
 
     <div>
         <h1>My Articles:</h1>
+
         <button type="button" class="btn">Create New Article</button>
+
     </div>
     
     <div>
-        {{#if articles}}
+        {{#if userArticles}}
         <ul>
-            {{#each allTestData}}
+            {{#each userArticles}}
             <li>
-                <h3>Header!</h3>
-                <h4>Written by AUTHOR</h4>
-                <h4>Posted on DATE</h4>
-                <p>{{this.stuff}}</p>
+                <h2>{{this.title}}</h2>
+                <h3>Written by {{this.name}}</h3>
+                <h4>Posted on {{this.timestamp}}</h4>
+                <div>{{{this.content}}}</div>
+                {{this.id}}
+                <form name="deleteArticle" action="./delete-article" method="POST">
+                    <input type="hidden" name="articleId" id="articleId" value="{{{this.articleId}}}">
+                    <input type="submit" name="deleteArticle" value="Delete">
+                </form>
             </li>
             {{/each}}
         </ul>
     
-        <button type="button" class="btn">Edit</button>
-        <button type="button" class="btn">Delete</button>
+
+        
     
         {{else}}
         <p>You have no articles!</p>
         <button type="button" class="btn">Create New Article</button>
+
         {{/if}}
     </div>
 

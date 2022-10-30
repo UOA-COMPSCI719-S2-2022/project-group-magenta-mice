@@ -6,6 +6,14 @@ async function addUserToLocals(req, res, next) {
     next();
 }
 
+async function addUserToLocalsRetrieve(req, res, next) {
+    const user = await userDao.retrieveUserWithAuthToken(req.cookies.retrieveToken);
+    res.locals.user = user;
+    next();
+}
+
+
+
 function verifyAuthenticated(req, res, next) {
     if (res.locals.user) {
         next();
@@ -17,5 +25,6 @@ function verifyAuthenticated(req, res, next) {
 
 module.exports = {
     addUserToLocals,
-    verifyAuthenticated
+    verifyAuthenticated,
+    addUserToLocalsRetrieve
 }
