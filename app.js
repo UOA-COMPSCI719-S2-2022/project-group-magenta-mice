@@ -40,8 +40,10 @@ app.use(require("./routes/create-account-routes.js"));
 const authRouter = require("./routes/auth-routes.js");
 app.use(authRouter);
 
-/* New Route to the TinyMCE Node module */
+/* New Route to the TinyMCE Node module + TinyMCE */
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(express.static(path.join(__dirname, "node_modules")));
+app.use('/tinymce', express.static(path.join(__dirname, 'middleware')));
 
 // Start the server running.
 app.listen(port, function () {

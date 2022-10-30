@@ -1,12 +1,12 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-async function createArticle(title, content, author) {
+async function createArticle(title, content, authorId) {
     const db = await dbPromise;
 
     await db.run(SQL`
-        insert into articles (title, content, author, timestamp)
-        values(${title}, ${content}, ${author}, datetime('now'))`);
+        insert into articles (title, content, authorId, timestamp)
+        values(${title}, ${content}, ${authorId}, datetime('now'))`);
 }
 
 async function retrieveAllArticles() {
@@ -21,10 +21,10 @@ async function retrieveArticlesBy(userID) {
     const db = await dbPromise;
 
     const articles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content'
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId' 
         from articles a, users u
         where u.id = ${userID}
-        and a.id = u.id
+        and a.authorId = u.id
         order by a.timestamp desc`);
 
     return articles;
@@ -35,7 +35,6 @@ async function deleteArticle(id) {
 
     await db.run(SQL`delete from articles where id = ${id}`);
 }
-
 
 // Export functions.
 module.exports = {
