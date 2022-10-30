@@ -1,3 +1,6 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="./css/main.css">
+
 <div class="container">
     {{#if toastMessage}}
     <p>{{toastMessage}}</p>
@@ -30,45 +33,62 @@
         </p>
         <p>
             <label for="txtUsername">Username:</label>
-            <input type="text" name="username" id="txtUsername" placeholder="must be unique" >
+
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" >
+
+
         </p>
         
         
         <p>
             <label for="txtPassword">Choose password:</label>
-            <input type="password" name="password" id="txtPassword" placeholder="any combination of a.Z.1.8.$" >
+
+            <input type="password" name="password" id="txtPassword" class="txtbox" placeholder="any combination of a.Z.1.8.$" >
+
         </p>
 
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
-            <input type="password" name="confirmedPassword" id="txtPasswordRe" placeholder="must be the same as the chosen one" >
+
+            <input type="password" name="confirmedPassword" id="txtPasswordRe" class="txtbox" placeholder="must be the same as the chosen one">
+
         </p>
         
         
 
         <p>
             <label for="txtName">Name:</label>
-            <input type="text" name="name" id="txtName" placeholder="full name" >
+
+            <input type="text" name="name" id="txtName" class="txtbox" placeholder="full name">
+
         </p>
 
         <p>
             <label for="txtBirthdat">Birthday:</label>
-            <input type="text" name="birthday" id="txtBirthday" placeholder="YYYY/MM/DD" >
+
+            <input type="text" name="birthday" id="txtBirthday" class="txtbox" placeholder="YYYY/MM/DD">
+
         </p>
 
         <p>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="xx@yy" >
+
+            <input type="email" name="email" id="email" class="txtbox" placeholder="xx@yy" >
+
         </p>
 
         <p>
             <label for="txtIntroduction">Self Introduction:</label>
-            <textarea id="txtIntroduction" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." ></textarea>
+
+            <textarea id="txtIntroduction" class="txtbox" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." ></textarea>
+
         </p>
         
 
         <p>
-            <button type="submit" >Create account</button>
+
+            <button type="submit" class="btn">Create account</button>
+
         </p>
         
     </form>

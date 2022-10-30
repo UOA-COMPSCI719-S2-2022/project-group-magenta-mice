@@ -1,8 +1,13 @@
+ <meta charset="UTF-8">
+<link rel="stylesheet" href="./css/main.css">
+
 <div class="container">
 
     <div>
         <h1>My Articles:</h1>
-        <a href="./new-article" class="button">Create New Article</a>
+
+        <button type="button" class="btn">Create New Article</button>
+
     </div>
     
     <div>
@@ -23,8 +28,13 @@
             {{/each}}
         </ul>
     
+
+        
+    
         {{else}}
-        <p>You have no articles! <a href="./new-article">Create one here.</a> </p> 
+        <p>You have no articles!</p>
+        <button type="button" class="btn">Create New Article</button>
+
         {{/if}}
     </div>
 

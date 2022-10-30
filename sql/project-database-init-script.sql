@@ -21,16 +21,16 @@ create table users (
    avatar varchar(32)
 );
 
-
-
 create table articles (
-      id integer not null primary key,
-      title varchar(128) not null,
-      content text not null,
-      timestamp timestamp not null,
-      rate integer not null default 0,
-      authorId integer not null,
-      FOREIGN key (authorId) REFERENCES users(id)
+
+    id integer not null primary key,
+    title varchar(128) not null,
+    content text not null,
+    timestamp timestamp not null,
+    rate integer not null default 0,
+    authorId integer not null,
+    FOREIGN key (authorId) REFERENCES users(id)
+
 );
 	
 
