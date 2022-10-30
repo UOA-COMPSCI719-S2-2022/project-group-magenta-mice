@@ -1,4 +1,5 @@
 <div class="container">
+
     <link rel="stylesheet" href="./css/rate.css">
     <script type="text/javascript" src="./site/rate.js"></script>
     <h1>Hello, {{user.name}}!</h1>
@@ -6,6 +7,7 @@
     <p>Click <a href="./logout">here</a> to log out.</p>
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
+
     <div>
         <h1>All Articles:</h1>
     </div>
@@ -15,9 +17,12 @@
             {{#each articles}}
             <li>
                 <h2>{{this.title}}</h2>
-                <h3>Written by {{this.author}}</h3>
+                <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
-                <p>{{this.content}}</p>
+
+                <div>{{{this.content}}}</div>
+
+                
                 <form>
                     <div class="star-rating">
                         <input type="radio" id="5-stars" name="rating" value="5" />
@@ -33,6 +38,7 @@
                     </div>
                     <button type="submit">Send</button>
                 </form>
+
             </li>
             {{/each}}
         </ul>

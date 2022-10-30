@@ -27,17 +27,13 @@ create table articles (
       id integer not null primary key,
       title varchar(128) not null,
       content text not null,
-      author varchar(64) not null,
       timestamp timestamp not null,
       rate integer not null default 0,
-      FOREIGN key (author) REFERENCES users(id)
+      authorId integer not null,
+      FOREIGN key (authorId) REFERENCES users(id)
 );
 	
 
 
 
-
-
-
-													 
 

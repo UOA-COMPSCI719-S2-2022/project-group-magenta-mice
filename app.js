@@ -42,8 +42,10 @@ app.use(require("./routes/admin-routes.js"));
 app.use(require("./routes/retrieve-routes.js"));
 app.use(require("./routes/reset-password-routes.js"));
 
-/* New Route to the TinyMCE Node module */
+/* New Route to the TinyMCE Node module + TinyMCE */
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(express.static(path.join(__dirname, "node_modules")));
+app.use('/tinymce', express.static(path.join(__dirname, 'middleware')));
 
 
 
