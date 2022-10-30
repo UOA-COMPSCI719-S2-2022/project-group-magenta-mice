@@ -7,43 +7,37 @@
 drop table if exists articles;
 drop table if exists users;
 
+
 create table users (
-    id integer not null primary key,
-    username varchar(64) unique not null,
-    password varchar(64) not null,
-    name varchar(64),
-    birthday date,
-    email varchar(64),
-    avatar varchar(32),
-    introduction varchar(512),
-    authToken varchar(128)
-    
+
+   id integer not null primary key,
+   username varchar(64) unique not null,
+   password varchar(64) not null,
+   name varchar(64),
+   birthday date,
+   email varchar(64),
+   introduction varchar(512),
+   authToken varchar(128),
+   avatar varchar(32)
 );
+
 
 
 create table articles (
-	id integer not null primary key,
-	title varchar(128) not null,
-	content text not null,
-	author varchar(64) not null,
-	datePosted date not null,
-	FOREIGN key (author) REFERENCES users (name)
+      id integer not null primary key,
+      title varchar(128) not null,
+      content text not null,
+      author varchar(64) not null,
+      timestamp timestamp not null,
+      rate integer not null default 0,
+      FOREIGN key (author) REFERENCES users(id)
 );
+	
 
-
-
-
--- insert into users (id, username, password, name, birthday, email, introduction) values
---                                                      (1, 'user1', 'pa55word', 'Alice', 1983-04-28, 'tianshu123@gmai.com','afiohsfnwao;asfawsf'),
---                                                      (2, 'user2', 'pa55word', 'Bob', 1993-04-28, '123@gmai.com','fasgfaegrawrgeagdfds');
--- insert into articles (title, content, author, datePosted) VALUES
--- ('Article 1', 'Content 1', 'Alice', 2013-11-10);
 
 
 
 
 
 													 
-
-
 
