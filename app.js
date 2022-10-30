@@ -27,20 +27,25 @@ app.use(cookieParser());
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
-// Use the toaster middleware
+// Use middlewares
 const { toaster } = require("./middleware/toaster-middleware.js");
 app.use(toaster);
 const { addUserToLocals } = require("./middleware/auth-middleware.js");
 app.use(addUserToLocals);
+
 
 // Setup routes
 app.use(require("./routes/application-routes.js"));
 app.use(require("./routes/create-account-routes.js"));
 app.use(require("./routes/auth-routes.js"));
 app.use(require("./routes/admin-routes.js"));
+app.use(require("./routes/retrieve-routes.js"));
+app.use(require("./routes/reset-password-routes.js"));
 
 /* New Route to the TinyMCE Node module */
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+
 
 // Start the server running.
 app.listen(port, function () {
