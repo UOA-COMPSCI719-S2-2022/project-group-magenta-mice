@@ -21,6 +21,19 @@ async function createUser(user) {
 }
 
 /**
+ * Edit the given user into the database.
+ * @param user the user to edit
+ */
+
+async function editUser(user) {
+    const db = await dbPromise;
+    await db.run(SQL`
+        update users
+        set username = ${user.username}, password = ${user.password}, name = ${user.name}, birthday = ${user.birthday}, email = ${user.email}, avatar = ${user.avatar}, introduction = ${user.introduction}
+        where id = ${user.id}`);
+}
+
+/**
  * Gets the user with the given id from the database.
  * If there is no such user, undefined will be returned.
  * 
@@ -109,9 +122,9 @@ async function updateUser(user) {
 
     await db.run(SQL`
         update users
-        set username = ${user.username}, password = ${user.password},
-            name = ${user.name}, authToken = ${user.authToken}
-        where id = ${user.id}`);
+        set username = ${user.username}, password = ${user.password}, email = ${user.email}, 
+        authToken = ${user.authToken}, avatar = ${user.avatar}, introduction = ${user.introduction}
+        where username = ${user.username}`);
 }
 
 /**
@@ -136,5 +149,6 @@ module.exports = {
     retrieveUserByUsername,
     retrieveAllUsers,
     updateUser,
-    deleteUser
+    deleteUser,
+    editUser
 };
