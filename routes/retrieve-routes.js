@@ -11,7 +11,7 @@ router.get("/retrieve", function (req, res) {
     res.render("retrieve");
 });
 
-// When a user provide correct username and email, reset-password-page is rendered. 
+// When a user provide username and email, verify them and render reset-password-page. 
 router.post("/retrieveSubmitted", async function (req, res) {
     const username = req.body.username;
     const email = req.body.email;
@@ -39,14 +39,17 @@ router.post("/retrieveSubmitted", async function (req, res) {
 
 });
 
-// Render reset-password page and shows the username stored in retrieve-password page.
+// Render reset-password page with the username stored in retrieve-password page.
 router.get("/reset", addUserToLocalsRetrieve, function (req, res) {
 
     res.render("reset-password");
 });
 
-// When a user inputs two same passwords in the reset-password page, generate salt 
-// to hash the new password and update users database. 
+/** 
+ * When a user inputs passwords in the reset-password page, verify them to be same,  
+ * generate salt to hash the new password and update users database with the new 
+ * hased password. 
+ **/ 
 router.post("/resetSubmitted", async function (req, res) {
     const username = req.body.username;
     const newPassword = req.body.password;
