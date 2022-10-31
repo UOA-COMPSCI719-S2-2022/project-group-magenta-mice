@@ -1,10 +1,37 @@
 <div class="container">
-     <meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
+
+    <div id="login">
+        <div class="dropdown">
+            <button class="dropbtn">Login</button>
+            <div class="dropdown-content">
+                <form action="./login" method="POST">
+                    <div class="flex-col mb">
+                        <label for="txtUsername" class="txt">Username:</label>
+                        <input type="text" id="txtUsername" name="username" required>
+                    </div>
+                    <div class="flex-col mb">
+                        <label for="txtPassword" class="txt">Password:</label>
+                        <input type="text" id="txtPassword" name="password" required>
+                    </div>
+                    <dev class="flex-row justify-sb align-right">
+                        <button class="dropbt" type="submit" class="txt">Submit</button>
+                    </dev>
+                </form>
+                <p>Don't have an account?
+                    <a href="./newAccount">Create one here.</a>
+                </p>
+                <p>Forgot your password? Retrieve here
+                    <button type="button" onclick="window.location.href='./retrieve';">Retrieve</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
-    <link rel="stylesheet" href="./css/rate.css">
-    <script type="text/javascript" src="./site/rate.js"></script>
+<div class="container">
+
     <h1>Hello, {{user.name}}!</h1>
     <p>This is your homepage!</p>
     <p>Click <a href="./logout">here</a> to log out.</p>
@@ -25,8 +52,23 @@
 
                 <div>{{{this.content}}}</div>
 
-                
-                <form>
+                <script>
+
+                    function rating() {
+                        const form = document.querySelector('starForm');
+                        form.addEventListener('submit', event => {
+                            const formData = new FormData(event.target);
+                            const rating = formData.get('rating');
+                            console.log(rating);
+                            event.preventDefault();
+                        });
+                    }
+                </script>
+
+
+
+
+                <form id="starForm" onsubmit="rating()" action="#">
                     <div class="star-rating">
                         <input type="radio" id="5-stars" name="rating" value="5" />
                         <label for="5-stars" class="star">&#9733;</label>
@@ -46,5 +88,6 @@
             {{/each}}
         </ul>
     </div>
-    
+
+
 </div>

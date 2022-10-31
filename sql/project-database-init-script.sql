@@ -29,7 +29,7 @@ create table articles (
     timestamp timestamp not null,
     rate integer not null default 0,
     authorId integer not null,
-    FOREIGN key (authorId) REFERENCES users(id)
+    FOREIGN key (authorId) REFERENCES users(id) on delete cascade
 
 );
 	
