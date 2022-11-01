@@ -64,6 +64,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     const id = req.body.articleID;
     const currentRate = req.body.currentRate;
     const totalRate = parseInt(rating) + parseInt(currentRate);
+    console.log(id);
     try {
         await articlesDao.updateRate(totalRate, id);
         res.setToastMessage("Article rated!");
@@ -84,10 +85,13 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
     //res.locals.title = "Edit Article";
 
     const article = await articlesDao.retrieveArticle(req.body.articleId);
+    const title = await articlesDao.retrieveArticle(req.body.title);
+    res.locals.title = req.body.title;
     res.locals.article = article;
     console.log(article);
 
-    res.render("article-editor");
+
+    res.render("article-editor-duplicate");
 });
 
 module.exports = router;
