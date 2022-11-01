@@ -31,7 +31,6 @@ create table articles (
     authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
     ON DELETE CASCADE
-
 );
 	
 

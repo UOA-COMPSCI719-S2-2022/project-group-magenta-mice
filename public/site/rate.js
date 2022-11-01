@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
     // ....
     // });
 
-    const form = document.querySelector('form');
+    const form = document.querySelector('starForm');
     form.addEventListener('submit', event => {
         const formData = new FormData(event.target);
         const rating = formData.get('rating');

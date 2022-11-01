@@ -1,13 +1,6 @@
 
 <div class="container col-sm-12">
 
-    {{! Display a toast message if one was provided. }}
-    {{#if toastMessage}}
-    <p>{{toastMessage}}</p>
-    {{/if}}
-
-    
-
     <h1>Retrieve Password</h1>
     <form name="retrieveForm" onsubmit="return checkEmail()" action="./retrieveSubmitted" method="POST">
         <div >
@@ -22,11 +15,5 @@
         <button type="submit" class="btn" >Retrieve</button>
         
     </form>
-
-    
-
-
-   
-   
 
 </div>
