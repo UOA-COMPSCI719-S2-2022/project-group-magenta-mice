@@ -1,43 +1,39 @@
-/* component */
-
-.star-rating {
-    border:solid 1px #ccc;
-    display:flex;
-    flex-direction: row-reverse;
-    font-size:1.5em;
-    justify-content:space-around;
-    padding:0 .2em;
-    text-align:center;
-    width:5em;
+.select-dropdown,
+.select-dropdown * {
+    margin: auto;
+    padding: 0.5em 0.5em 0.5em;
+    position: relative;
+    box-sizing: border-box;
 }
-
-.star-rating input {
-    display:none;
+.select-dropdown {
+    position: relative;
+    background-color: #faf3ddda;
+    border-radius: 4px;
 }
-
-.star-rating label {
-    color:#ccc;
-    cursor:pointer;
+.select-dropdown select {
+    font-size: 1rem;
+    font-weight: normal;
+    max-width: 100%;
+    padding: 8px 24px 8px 10px;
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
-
-.star-rating :checked ~ label {
-    color:#f90;
+.select-dropdown select:active, .select-dropdown select:focus {
+    outline: none;
+    box-shadow: none;
 }
-
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-    color:#fc0;
-}
-
-/* explanation */
-
-article {
-    background-color:#ffe;
-    box-shadow:0 0 1em 1px rgba(0,0,0,.25);
-    color:#006;
-    font-family:cursive;
-    font-style:italic;
-    margin:4em;
-    max-width:30em;
-    padding:2em;
+.select-dropdown:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border-top: 5px solid #aaa;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
 }
