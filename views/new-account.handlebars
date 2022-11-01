@@ -8,6 +8,9 @@
             }
         }
     </script>
+
+    
+
     <h1>New Account</h1>
     <form name="newForm" onsubmit="checkSamePasswords()" action="./submit" method="POST">
         <p>Choose your avatar:
@@ -22,9 +25,33 @@
             <label><input type="radio" name="avatar" id="mouse" value="mouse.png"> <img src="./avatar/mouse.png"
                     width="90"></label>
         </p>
+        {{!-- fetch email from client side/html and check with sql? --}}
+    <script>
+            async function keyup(){
+               
+                const userIsExisted = await fetch(`/checkUsername`); 
+                console.log(`userIsExisted:${userIsExisted}`);
+                
+                {{!-- if(await userIsExisted.json();){
+                    var x = document.getElementById("txtUsername");
+                    x.value = x.value.toUpperCase();
+                
+                }else{
+                    return;
+                } --}}
+               
+
+                
+            }
+    </script> 
+
+
         <p>
             <label for="txtUsername">Username:</label>
-            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique">
+
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="keyup()" >
+
+
         </p>
         <p>
             <label for="txtPassword">Choose password:</label>

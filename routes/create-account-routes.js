@@ -38,6 +38,22 @@ router.post("/submit", async function (req, res) {
 
 });
 
+router.get("/checkUsername", async function(req, res){
+    let username= req.query.username;
+    console.log(`usernameCheck:${username}`);
+    if(await userDao.retrieveUserByUsername(username).username === undefined){
+        console.log("checking username-undefined!");
+        
+        return true;
+    }else{
+        console.log("checking username-ok!");
+        res.setToastMessage("Username existed!");
+        return false;
+    }
+
+
+});
+
 //allows user to delete the user account and clear the local cookie
 router.get("/delete", async function (req, res) {
     if (res.locals.user) {
