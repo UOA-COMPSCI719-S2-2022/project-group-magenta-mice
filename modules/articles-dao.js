@@ -3,12 +3,12 @@ const dbPromise = require("./database.js");
 
 
 // Create new article
-async function createArticle(title, content, userId) {
+async function createArticle(title, content, authorId) {
     const db = await dbPromise;
 
     await db.run(SQL`
-        insert into articles (title, content, userId, timestamp)
-        values(${title}, ${content}, ${userId}, datetime('now'))`);
+        insert into articles (title, content, authorId, timestamp)
+        values(${title}, ${content}, ${authorId}, datetime('now'))`);
 }
 
 // Edit article, replace values except timestamp
