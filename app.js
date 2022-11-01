@@ -17,7 +17,8 @@ app.engine("handlebars", handlebars({
 app.set("view engine", "handlebars");
 
 // Setup body-parser
-app.use(express.urlencoded({ extended: false }));
+///app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({limit: '50mb', extended: true})); //changed this to allow bigger file uploads thru tinymce
 
 // Setup cookie-parser
 const cookieParser = require("cookie-parser");
@@ -32,7 +33,6 @@ const { toaster } = require("./middleware/toaster-middleware.js");
 app.use(toaster);
 const { addUserToLocals } = require("./middleware/auth-middleware.js");
 app.use(addUserToLocals);
-
 
 // Setup routes
 app.use(require("./routes/application-routes.js"));

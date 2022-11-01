@@ -1,18 +1,19 @@
-<div class="container">
+
+<div class="container col-sm-12">
 
     <h1>Retrieve Password</h1>
     <form name="retrieveForm" onsubmit="return checkEmail()" action="./retrieveSubmitted" method="POST">
-        <div>
-            <label for="txtUsername">Username:</label>
-            <input type="text" name="username" id="txtUsername" value={{username}}>
+        <div >
+            <label for="txtUsername" class="label">Username:</label>
+            <input type="text" name="username" id="txtUsername" class="txtbox"value={{username}}>
         </div>
-        <div>
-            <label for="txtEmail">Email:</label>
-            <input type="text" name="email" id="txtEmail">
+        <div >
+            <label for="txtEmail" class="label"> Email:</label>
+            <input type="text" name="email" id="txtEmail" class="txtbox">
         </div>
-
-        <button type="submit">Retrieve</button>
-
+       <br>
+        <button type="submit" class="btn" >Retrieve</button>
+        
     </form>
 
 </div>

@@ -1,7 +1,7 @@
 #articles {
     position: relative;
     margin: auto;
-    padding: 0 10% 10%;
+    padding: 0 10% 10% ;
     background: #FAF3DD;
 }
 
@@ -25,8 +25,7 @@
     "." "mainContent" ".";
 }
 
-p{
-    margin-right: auto;
+p, .label{
     color: #aed9e0;    
 }
 
@@ -52,11 +51,4 @@ h2, h3, h4{
     border-color: #ffa69e;
     color: white;
     font-size: 16px;
-}
-
-@media screen and (max-wdith:600px){
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-    "header"
-    "mainContent";
 }
