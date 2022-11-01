@@ -1,5 +1,5 @@
 
-<script type="text/javascript" src="../public/site/comments.js"></script>
+{{!-- <script type="text/javascript" src="../public/site/comments.js"></script> --}}
 
 <div class="container col-sm-12">
 
@@ -45,6 +45,8 @@
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
 
+    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Create new articles!</button>
+
     <div>
         <h1>All Articles:</h1>
     </div>
@@ -70,12 +72,10 @@
                             <option value="4">Great</option>
                             <option value="5">Excellent</option>
                         </select>
-                        <input id="articleID" type="hidden" name="articleID" value="{{this.id}}">
+                        <input id="articleID" type="hidden"  name="articleID" value="{{this.id}}">
                         <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
                         <button type="submit" class="btn" >Rate!</button>
-                        {{#if toastMessage}}
-                            <p>{{toastMessage}}</p>
-                        {{/if}}
+                        
                     </form>
                 </div>
 

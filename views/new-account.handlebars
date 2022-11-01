@@ -28,7 +28,7 @@
             async function keyup(){
                
                 const userIsExisted = await fetch(`/checkUsername`); 
-                console.log(`userIsExisted:${userIsExisted}`);
+                console.log(`userIsExisted.json():${userIsExisted.json()}`);
                 
                 {{!-- if(await userIsExisted.json();){
                     var x = document.getElementById("txtUsername");

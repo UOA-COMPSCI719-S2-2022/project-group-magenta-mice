@@ -43,8 +43,9 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     const user = res.locals.user;
 
     await articlesDao.createArticle(req.body.title, req.body.content, user.id);
+    
     res.setToastMessage("Article posted!");
-    res.redirect("/my-articles");
+    res.redirect("./my-articles");
 
 });
 
@@ -64,8 +65,12 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     const id = req.body.articleID;
     const currentRate = req.body.currentRate;
     const totalRate = parseInt(rating) + parseInt(currentRate);
+    
+
     try {
         await articlesDao.updateRate(totalRate, id);
+        res.locals.rate = 1;
+        
         res.setToastMessage("Article rated!");
         res.redirect("/");
     }
@@ -83,11 +88,14 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    const article = await articlesDao.retrieveArticle(req.body.articleId);
-    res.locals.article = article;
+    let article = await articlesDao.retrieveArticle(req.body.articleId);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+    
     console.log(article);
 
-    res.render("article-editor");
+    res.render("article-editor-duplicate");
 });
 
 module.exports = router;
