@@ -163,7 +163,7 @@ router.post("/edit", async function (req, res) {
 
 });
 
-
+/*
 // Account creation
 router.get("/newAccount", function (req, res) {
     res.render("new-account");
@@ -190,6 +190,6 @@ router.post("/newAccount", async function (req, res) {
         res.redirect("/newAccount");
     }
 
-});
+});*/
 
 module.exports = router;
