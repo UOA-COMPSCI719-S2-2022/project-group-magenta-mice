@@ -80,7 +80,7 @@ router.post("/login", async function (req, res) {
     else {
         // Auth fail
         res.locals.user = null;
-        res.setToastMessage("Authentication failed! User dose not exist");
+        res.setToastMessage("Authentication failed! User does not exist");
         res.redirect("./login");
     }
 });
