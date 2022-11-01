@@ -1,7 +1,12 @@
+
+<script type="text/javascript" src="../public/site/comments.js"></script>
+
+<div class="container col-sm-12">
+
+
+
 <div class="container">
-     <meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
-<!--    <link rel="stylesheet" href="./css/rate.css">-->
+    
     <h1>Hello, {{user.name}}!</h1>
     <p>This is your homepage!</p>
     <p>Click <a href="./logout">here</a> to log out.</p>
@@ -21,6 +26,7 @@
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
+
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
                     <form action="./rating" method="post">
@@ -33,15 +39,27 @@
                         </select>
                         <input id="articleID" type="hidden" name="articleID" value="{{this.id}}">
                         <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
-                        <button type="submit">Rate!</button>
+                        <button type="submit" class="btn" >Rate!</button>
                         {{#if toastMessage}}
                             <p>{{toastMessage}}</p>
                         {{/if}}
                     </form>
                 </div>
+
             </li>
             {{/each}}
         </ul>
     </div>
+
+    <div id="commentContainer">
+        <form>
+        <textarea type="text" name="comment" id="comment-box"  class="txtbox" rows="5" placeholder="Enter comment"></textarea>
+       <div>
+        <button id="post" class="btn">Post</button>
+         <ul id="unordered">
+         </ul>
+         </div>
+         </form>
+    </div> 
     
 </div>

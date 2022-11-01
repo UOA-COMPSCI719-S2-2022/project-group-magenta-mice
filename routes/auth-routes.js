@@ -1,7 +1,6 @@
 const { v4: uuid } = require("uuid");
 const express = require("express");
 const router = express.Router();
-const bcrypt = require ('bcrypt');
 
 // The DAO that handles CRUD operations for users.
 const userDao = require("../modules/users-dao.js");
