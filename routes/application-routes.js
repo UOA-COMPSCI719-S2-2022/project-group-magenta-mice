@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
+const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
 router.get("/", async function (req, res) {
@@ -54,6 +55,25 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
     await articlesDao.deleteArticle(req.body.articleId);
     res.setToastMessage("Article Deleted!");
     res.redirect("/my-articles");
+
+});
+
+router.post("/rating", verifyAuthenticated, async function (req, res) {
+
+    const rating = req.body.rate;
+    const id = req.body.articleID;
+    const currentRate = req.body.currentRate;
+    const totalRate = parseInt(rating) + parseInt(currentRate);
+    try {
+        await articlesDao.updateRate(totalRate, id);
+        res.setToastMessage("Article rated!");
+        res.redirect("/");
+    }
+    catch (err) {
+        res.setToastMessage("Unable to update the rate for this article! plz try again!");
+        res.redirect("/");
+    }
+
 
 });
 

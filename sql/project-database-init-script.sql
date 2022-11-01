@@ -30,9 +30,11 @@ create table articles (
     rate integer not null default 0,
     authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
+    ON DELETE CASCADE
 
 );
 	
+
 
 
 

@@ -14,11 +14,12 @@ router.get("/newAccount", function (req, res) {
 
 
 // Create a new account w/ the submitted data
+
+   
+    
 router.post("/submit", async function (req, res) {
-    
-    // generate salt to hash password
     const salt = await bcrypt.genSalt(10);
-    
+
     const user = {
         username: req.body.username,
         password: await bcrypt.hash(req.body.password, salt),

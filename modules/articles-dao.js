@@ -66,6 +66,12 @@ async function deleteArticle(id) {
     await db.run(SQL`delete from articles where id = ${id}`);
 }
 
+async function updateRate(rate, articleID) {
+    const db = await dbPromise;
+
+    await db.run(SQL`update articles set rate = ${rate} where id = ${articleID}`);
+}
+
 // Export functions.
 module.exports = {
     createArticle,
@@ -73,5 +79,6 @@ module.exports = {
     retrieveAllArticles,
     retrieveArticlesBy,
     deleteArticle,
-    retrieveArticle
+    retrieveArticle,
+    updateRate
 };

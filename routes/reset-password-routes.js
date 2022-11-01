@@ -52,9 +52,7 @@ router.post("/resetSubmitted",  async function(req, res){
 
     };
     res.redirect("./reset");
-    
-
-    
+     
     
     
 });

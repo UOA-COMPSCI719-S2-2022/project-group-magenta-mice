@@ -1,8 +1,5 @@
-
-<meta charset="UTF-8">
 <link rel="stylesheet" href="./css/login.css">
-
-<div class="container">
+<div class="container col-sm-12">
 
     {{! Display a toast message if one was provided. }}
     {{#if toastMessage}}
@@ -16,18 +13,20 @@
             <form action="./login" method="POST">
                 <div class="flex-col mb">
                     <label for="txtUsername" class="txt">Username:</label>
-                    <input type="text" id="txtUsername" name="username" required>
+                    <input type="text" id="txtUsername" name="username" class="txtbox"required>
                 </div>
                 <div class="flex-col mb">
                     <label for="txtPassword" class="txt">Password:</label>
-                    <input type="text" id="txtPassword" name="password" required>
+                    <input type="password" id="txtPassword" name="password" class="txtbox" required>
                 </div>
+                <br>
                 <dev class="flex-row justify-sb align-right">
-                    <button class="dropbt" type="submit" class="txt">Submit</button>
+                    <button class="dropbt" type="submit">Submit</button>
                 </dev>
             </form>
             <p>Don't have an account? 
-            <a href="./newAccount">Create one here.</a></p>
+            <a href="./newAccount"> Create one here. </a>
+            <a href="./retrieve"> Forgot password</a> </p>
         </div>
     </div>
     </div>

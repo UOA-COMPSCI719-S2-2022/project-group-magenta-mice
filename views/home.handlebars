@@ -1,10 +1,12 @@
+
+<script type="text/javascript" src="../public/site/comments.js"></script>
+
+<div class="container col-sm-12">
+
+
+
 <div class="container">
-     <meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
-
-
-    <link rel="stylesheet" href="./css/rate.css">
-    <script type="text/javascript" src="./site/rate.js"></script>
+    
     <h1>Hello, {{user.name}}!</h1>
     <p>This is your homepage!</p>
     <p>Click <a href="./logout">here</a> to log out.</p>
@@ -16,35 +18,49 @@
     </div>
 
     <div>
+
         <ul>
             {{#each articles}}
             <li>
                 <h2>{{title}}</h2>
                 <h3>Written by {{this.name}}</h3>
-                <h4>Posted on {{timestamp}}</h4>
+                <h4>Posted on {{this.timestamp}}</h4>
+                <div>{{{this.content}}}</div>
 
-                <div>{{{content}}}</div>
 
-                
-                <form>
-                    <div class="star-rating">
-                        <input type="radio" id="5-stars" name="rating" value="5" />
-                        <label for="5-stars" class="star">&#9733;</label>
-                        <input type="radio" id="4-stars" name="rating" value="4" />
-                        <label for="4-stars" class="star">&#9733;</label>
-                        <input type="radio" id="3-stars" name="rating" value="3" />
-                        <label for="3-stars" class="star">&#9733;</label>
-                        <input type="radio" id="2-stars" name="rating" value="2" />
-                        <label for="2-stars" class="star">&#9733;</label>
-                        <input type="radio" id="1-star" name="rating" value="1" />
-                        <label for="1-star" class="star">&#9733;</label>
-                    </div>
-                    <button type="submit">Send</button>
-                </form>
+                <h5>Total Rates: {{this.rate}}</h5>
+                <div class="select-dropdown">
+                    <form action="./rating" method="post">
+                        <select id="rating" name="rate">
+                            <option value="1">Poor</option>
+                            <option value="2">Fair</option>
+                            <option value="3" selected="selected">Good</option>
+                            <option value="4">Great</option>
+                            <option value="5">Excellent</option>
+                        </select>
+                        <input id="articleID" type="hidden" name="articleID" value="{{this.id}}">
+                        <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
+                        <button type="submit" class="btn" >Rate!</button>
+                        {{#if toastMessage}}
+                            <p>{{toastMessage}}</p>
+                        {{/if}}
+                    </form>
+                </div>
 
             </li>
             {{/each}}
         </ul>
     </div>
+
+    <div id="commentContainer">
+        <form>
+        <textarea type="text" name="comment" id="comment-box"  class="txtbox" rows="5" placeholder="Enter comment"></textarea>
+       <div>
+        <button id="post" class="btn">Post</button>
+         <ul id="unordered">
+         </ul>
+         </div>
+         </form>
+    </div> 
     
 </div>
