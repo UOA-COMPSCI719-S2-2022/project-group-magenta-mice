@@ -1,10 +1,10 @@
-<div class="container">
-     <meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="./css/rate.css">
+<script type="text/javascript" src="./site/rate.js"></script>
+<script type="text/javascript" src="../public/site/comments.js"></script>
+
+<div class="container col-sm-12">
 
 
-    <link rel="stylesheet" href="./css/rate.css">
-    <script type="text/javascript" src="./site/rate.js"></script>
     <h1>Hello, {{user.name}}!</h1>
     <p>This is your homepage!</p>
     <p>Click <a href="./logout">here</a> to log out.</p>
@@ -38,13 +38,26 @@
                         <label for="2-stars" class="star">&#9733;</label>
                         <input type="radio" id="1-star" name="rating" value="1" />
                         <label for="1-star" class="star">&#9733;</label>
-                    </div>
-                    <button type="submit">Send</button>
+                    </div>  
+
+    <button type="submit" class="btn">Send</button>
+
                 </form>
 
             </li>
             {{/each}}
         </ul>
     </div>
+
+    <div id="commentContainer">
+        <form>
+        <textarea type="text" name="comment" id="comment-box"  class="txtbox" rows="5" placeholder="Enter comment"></textarea>
+       <div>
+        <button id="post" class="btn">Post</button>
+         <ul id="unordered">
+         </ul>
+         </div>
+         </form>
+    </div> 
     
 </div>

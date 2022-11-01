@@ -1,17 +1,11 @@
 
-
-<meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
-
-
-
-<div class="container">
+<div class="container col-md-12">
     <h1>New Article</h1>
     <form action="./submit-article" method="post">
         <label for="title"><h2>Title:</h2></label>
          <input type="text" id="title" class="txtbox" name="title"><br>
         <textarea name="content" id="articleContent" class="txtbox">Your Article Here</textarea>
-        <button type="submit">Post!</button>
+        <button type="submit" class="btn">Post!</button>
         {{#if toastMessage}}
         <p>{{toastMessage}}</p>
         {{/if}}

@@ -1,7 +1,5 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="./css/main.css">
 
-<div class="container">
+<div class="container col-sm-12">
     {{#if toastMessage}}
     <p>{{toastMessage}}</p>
     {{/if}}
@@ -24,12 +22,13 @@
     <h1>New Account</h1>
     <form name="newForm" onsubmit="checkSamePasswords()" action="./submit" method="POST">
         <p>Choose your avatar:
-            <label><input type="radio" name="avatar" id="blue" value="blue.png"  ><img src="./avatar/blue.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="turtle" value="turtle.png" ><img src="./avatar/turtle.png" width="150"></label>
-            <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label>
-            
+            <div class="avatorcontainer">
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="blue" value="blue.png"  ><img src="./avatar/blue.png" width="90"></label> </div>
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label> </div> 
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label> </div> 
+           <div  class="avatar">  <label><input type="radio" name="avatar" id="turtle" value="turtle.png" ><img src="./avatar/turtle.png" width="150"></label> </div> 
+           <div  class="avatar">  <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label> </div> 
+            </div>
         </p>
         <p>
             <label for="txtUsername">Username:</label>
@@ -80,7 +79,7 @@
         <p>
             <label for="txtIntroduction">Self Introduction:</label>
 
-            <textarea id="txtIntroduction" class="txtbox" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." ></textarea>
+          <p>  <textarea id="txtIntroduction" class="txtbox" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself.." ></textarea></p>
 
         </p>
         
@@ -92,7 +91,7 @@
         </p>
         
     </form>
-    <div></p><small>Log in now?</small>
-    <button type="button" onclick="window.location.href='./login';" >Login</button>
+    <div ><p><small>Log in now?</small></p>
+    <button type="button" class="btn" onclick="window.location.href='./login';" >Login</button>
 
 </div>

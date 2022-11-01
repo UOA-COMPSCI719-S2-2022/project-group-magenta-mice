@@ -1,49 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/Tracey/Downloads/COMPSCI/project-group-magenta-mice/project-database.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="1"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1206"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainusers"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="articles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="18"/><column index="2" value="29"/><column index="3" value="48"/><column index="4" value="52"/><column index="5" value="63"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="users" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="18"/><column index="2" value="59"/><column index="3" value="58"/><column index="4" value="36"/><column index="5" value="52"/><column index="6" value="36"/><column index="7" value="72"/><column index="8" value="61"/><column index="9" value="41"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">drop table if exists articles;
-
-
-
-
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/Tracey/Downloads/COMPSCI/project-group-magenta-mice/project-database.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1206"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,8:mainarticles"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="articles" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="18"/><column index="2" value="29"/><column index="3" value="48"/><column index="4" value="63"/><column index="5" value="29"/><column index="6" value="52"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">drop table if exists articles;
 drop table if exists users;
 
+
 create table users (
-                       id integer not null primary key,
-                       username varchar(64) unique not null,
-                       password varchar(64) not null,
-                       name varchar(64),
-                       birthday date,
-                       email varchar(64),
-                       introduction varchar(512),
-                       authToken varchar(128),
-                       avatar varchar(32)
-                   );
 
-
+   id integer not null primary key,
+   username varchar(64) unique not null,
+   password varchar(64) not null,
+   name varchar(64),
+   birthday date,
+   email varchar(64),
+   introduction varchar(512),
+   authToken varchar(128),
+   avatar varchar(32)
+);
 
 create table articles (
+
     id integer not null primary key,
     title varchar(128) not null,
     content text not null,
-    authorId varchar(64) not null,
     timestamp timestamp not null,
+    rate integer not null default 0,
+    authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
-);
 
-insert into test (stuff) values
-    ('Things'),
-    ('More things');
-	
-insert into articles (title, content, author, datePosted) VALUES
-('Article 1', 'Content 1', 'Author 1', '2013');
-=======
-
-insert into users (id, username, password, name, birthday, email, introduction) values
-                                                     (1, 'user1', 'pa55word', 'Alice', 1983-04-28, 'tianshu123@gmai.com','afiohsfnwao;asfawsf'),
-                                                     (2, 'user2', 'pa55word', 'Bob', 1993-04-28, '123@gmai.com','fasgfaegrawrgeagdfds');
-
-insert into messages (id, senderId, receiverId, timestamp, content) values
-                                                                        (1, 1, 2, datetime('2021-05-15 15:00:00'), 'Hi, Bob!'),
-                                                                        (2, 2, 1, datetime('2021-05-15 15:02:00'), 'Hi, Alice!'),
-                                                                        (3, 1, 2, datetime('2021-05-15 15:04:00'), 'I like pie.'),
-                                                                        (4, 2, 1, datetime('2021-05-15 15:10:00'), 'COMPSCI 719 is awesome! And I like pie also too.');
-
-</sql><current_tab id="0"/></tab_sql></sqlb_project>
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
