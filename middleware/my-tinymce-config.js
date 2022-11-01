@@ -3,7 +3,8 @@ tinymce.init({
   width: 700,
   plugins: 'image',
   toolbar: 'image',
-  images_file_types: 'jpg,svg,webp,png',
+  images_upload_base_path: '../public/images',
+  images_file_types: 'jpg,webp,png',
   file_picker_types: 'image',
   block_unsupported_drop: true,
 
@@ -37,4 +38,14 @@ tinymce.init({
     input.click();
   },
 
+  /*images_upload_handler: function (blobInfo, success, failure) {
+    var image_size = blobInfo.blob().size / 1000;  // image size in kbytes
+    var max_size   = max_size_value                // max size in kbytes
+    if( image_size  > max_size ){        
+        failure('Image is too large( '+ image_size  + ') ,Maximum image size is:' + max_size + ' kB');
+        return;      
+    } else {
+        // Your code
+    }
+  }*/
 });

@@ -19,6 +19,7 @@ router.get("/newAccount", function (req, res) {
     
 router.post("/submit", async function (req, res) {
     const salt = await bcrypt.genSalt(10);
+
     const user = {
         username: req.body.username,
         password: await bcrypt.hash(req.body.password, salt),

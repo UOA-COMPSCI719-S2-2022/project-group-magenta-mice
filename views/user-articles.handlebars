@@ -1,10 +1,11 @@
 
+
 <div class="container col-sm-12">
 
     <div>
         <h1>My Articles:</h1>
 
-        <button type="button" class="btn">Create New Article</button>
+        <button type="button" onclick="window.location.href='./new-article';" class="btn">Create New Article</button>
 
     </div>
     
@@ -13,14 +14,18 @@
         <ul>
             {{#each userArticles}}
             <li>
-                <h2>{{this.title}}</h2>
-                <h3>Written by {{this.name}}</h3>
-                <h4>Posted on {{this.timestamp}}</h4>
-                <div>{{{this.content}}}</div>
-                {{this.id}}
+                <h2>{{title}}</h2>
+                <h3>Written by {{name}}</h3>
+                <h4>Posted on {{timestamp}}</h4>
+                <div>{{{content}}}</div>
+                
                 <form name="deleteArticle" action="./delete-article" method="POST">
-                    <input type="hidden" name="articleId" id="articleId" value="{{{this.articleId}}}">
-                    <input type="submit" name="deleteArticle" value="Delete">
+                    <input type="hidden" name="articleId" id="deleteArticle" value="{{articleId}}">
+                    <button type="submit" name="deleteArticle" class="btn">Delete</button>
+                </form>
+                <form name="editArticle" action="./edit-article" method="POST">
+                    <input type="hidden" name="articleId" id="editArticle" value="{{articleId}}">
+                    <button type="submit" name="editArticle" class="btn">Edit</button>
                 </form>
             </li>
             {{/each}}
@@ -31,7 +36,7 @@
     
         {{else}}
         <p>You have no articles!</p>
-        <button type="button" class="btn">Create New Article</button>
+        <button type="button" onclick="window.location.href='./new-article';" class="btn">Create One Here</button>
 
         {{/if}}
     </div>

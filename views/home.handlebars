@@ -22,10 +22,11 @@
         <ul>
             {{#each articles}}
             <li>
-                <h2>{{this.title}}</h2>
+                <h2>{{title}}</h2>
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
+
 
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
