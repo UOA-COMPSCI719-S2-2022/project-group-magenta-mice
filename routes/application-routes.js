@@ -24,7 +24,7 @@ router.get("/login", async function (req, res) {
 //Whenever we navigate to /my-articles, verify that we're authenticated. If we are, render the user's articles.
 router.get("/my-articles", verifyAuthenticated, async function(req, res) {
 
-    res.locals.title = "My Articles";
+    // res.locals.title = "My Articles";
     const user = res.locals.user;
     const userArticles = await articlesDao.retrieveArticlesBy(user.id);
     res.locals.userArticles = userArticles;
@@ -48,7 +48,7 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     const user = res.locals.user;
 
     await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
-    console.log(await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags));
+    
 
     res.setToastMessage("Article posted!");
     res.redirect("./my-articles");
@@ -138,7 +138,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    let article = await articlesDao.retrieveArticleBy(req.body.articleID);
+    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
     article.forEach(function(item){
         res.locals.article = item;
     })
