@@ -3,12 +3,12 @@ const dbPromise = require("./database.js");
 
 
 // Create new article
-async function createArticle(title, content, authorId) {
+async function createArticle(title, content, authorId, tags) {
     const db = await dbPromise;
 
     await db.run(SQL`
-        insert into articles (title, content, authorId, timestamp)
-        values(${title}, ${content}, ${authorId}, datetime('now'))`);
+        insert into articles (title, content, authorId, timestamp, tags)
+        values(${title}, ${content}, ${authorId}, datetime('now'), ${tags})`);
 }
 
 // Edit article, replace values except timestamp
@@ -22,15 +22,27 @@ async function editArticle(article) {
 }
 
 // Retrive article by article ID
-async function retrieveArticle(id) {
+async function retrieveArticleBy(id) {
     const db = await dbPromise;
 
     const article = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'oldContent', a.title as 'oldTitle', u.name as 'name', a.id as 'articleId' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags'
         from articles a, users u
         where a.id=${id}`);
 
     return article;
+}
+
+// Retrieve an article's ID
+async function retrieveArticleId(title, content, user) {
+    const db = await dbPromise;
+
+    const articleId = await db.all(SQL`
+        select a.id as 'articleId' 
+        from articles a
+        where a.title=${title} and a.content=${content} and a.authorId=${user}`);
+
+    return articleId;
 }
 
 // Retrieve all articles
@@ -38,7 +50,9 @@ async function retrieveAllArticles() {
     const db = await dbPromise;
 
     const allArticles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.rate as 'rate', a.id as 'id'
+
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags',a.rate as 'rate', a.id as 'id' 
+
         from articles a, users u
         order by a.timestamp desc`);
 
@@ -50,7 +64,7 @@ async function retrieveArticlesBy(userID) {
     const db = await dbPromise;
 
     const articles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags' 
         from articles a, users u
         where u.id = ${userID}
         and a.authorId = u.id
@@ -66,6 +80,19 @@ async function deleteArticle(id) {
     await db.run(SQL`delete from articles where id = ${id}`);
 }
 
+
+// Retrieve articles by tag
+async function searchArticlesBy(articleSearch) {
+    const db = await dbPromise;
+
+    const articles = await db.all(SQL`
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags' 
+        from articles a, users u
+        where tags like "%" ${articleSearch} "%"`);
+
+    return articles;
+}
+
 async function updateRate(rate, articleID) {
     const db = await dbPromise;
 
@@ -79,6 +106,8 @@ module.exports = {
     retrieveAllArticles,
     retrieveArticlesBy,
     deleteArticle,
-    retrieveArticle,
+    retrieveArticleBy,
+    retrieveArticleId,
+    searchArticlesBy,
     updateRate
 };
