@@ -1,9 +1,4 @@
-.container{
-   background-color:#FAF3DD ;
-   padding: 20% 50% 50% ;
-   margin: auto;
-   display: relative;
-}
+
 
 /* Style The Dropdown Button */
 .dropbtn {
@@ -83,20 +78,8 @@ p{
     
 }
 
-*{
-    font-family: Verdana, Geneva, Tahoma, sans-serif; 
-}
-
 .txtbox{
     border-color: #ffa69e;
     color:#ffa69e;
     padding: 10px;
-}
-
-
-
-@media screen and (max-wdith:600px){
-    #login {
-        align-items: stretch;
-    }
 }
