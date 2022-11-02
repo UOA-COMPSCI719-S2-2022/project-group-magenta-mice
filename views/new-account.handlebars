@@ -23,22 +23,26 @@
            <div  class="avatar">  <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label> </div> 
             </div>
         </p>
-        {{!-- fetch email from client side/html and check with sql? --}}
+        
     <script>
-            async function keyup(){
-               
-                const userIsExisted = await fetch(`/checkUsername`); 
-                console.log(`userIsExisted.json():${userIsExisted.json()}`);
-                
-                {{!-- if(await userIsExisted.json();){
-                    var x = document.getElementById("txtUsername");
-                    x.value = x.value.toUpperCase();
-                
-                }else{
-                    return;
-                } --}}
-               
+            async function checkUsername(){
 
+                const x = document.getElementById("txtUsername");
+                //x.value = "Hacked!"; //ok
+                
+               // Method 1: Fetch all users data and verify username availability
+                const all = await fetch("./checkUsername");
+                const allUsers = await all.json();
+
+                allUsers.forEach(function(user){
+                    if(x.value !== user.username){
+                            return;
+                    }else{
+                            x.value = "Username existed!";
+                            return x.value;
+                    }
+                });
+    
                 
             }
     </script> 
@@ -47,7 +51,7 @@
         <p>
             <label for="txtUsername">Username:</label>
 
-            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="keyup()" >
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()"  >
 
 
         </p>
@@ -68,6 +72,7 @@
         <p>
             <label for="txtBirthdat">Birthday:</label>
             <input type="text" name="birthday" id="txtBirthday" class="txtbox" placeholder="YYYY/MM/DD">
+            
         </p>
         <p>
             <label for="email">Email:</label>

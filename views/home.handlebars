@@ -38,9 +38,10 @@
 
 
 <div class="container">
-
-    <h1>Hello, {{user.name}}!</h1>
+{{#if user}}
+    <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
     <p>This is your homepage!</p>
+{{/if}}
     <p>Click <a href="./logout">here</a> to log out.</p>
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
@@ -62,9 +63,17 @@
                 <div>{{{this.content}}}</div>
 
 
+<script>
+ function pointer(){
+    console.log(e.target());
+
+ }
+</script>
+               
+
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
-                    <form action="./rating" method="post">
+                    <form action="./rating" method="post" onsubmit="pointer()">
                         <select id="rating" name="rate">
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>

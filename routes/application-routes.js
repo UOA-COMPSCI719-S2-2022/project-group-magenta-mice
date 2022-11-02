@@ -8,7 +8,7 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
-router.get("/", async function (req, res) {
+router.get("/login", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
@@ -59,17 +59,38 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
 });
 
+// Stuck to point to this current article
 router.post("/rating", verifyAuthenticated, async function (req, res) {
+    const articles  = await articlesDao.retrieveAllArticles();
+    console.log(`allArticles:${articles}`); // ok
+
+    const article = await articlesDao.retrieveArticleByTile(req.body.title);
+    console.log(`title:${article.title}`); //?
+    
+
+
+    const id = req.body.articleID;
+    // let article = await articlesDao.retrieveArticle(id);
+    console.log(`article:${article}`);
+    
 
     const rating = req.body.rate;
-    const id = req.body.articleID;
+    
+
     const currentRate = req.body.currentRate;
     const totalRate = parseInt(rating) + parseInt(currentRate);
+    
+    // console.log(`id:${id}`); // xx
+    console.log(`currentRate:${req.body.currentRate}`); // xx
     
 
     try {
         await articlesDao.updateRate(totalRate, id);
-        res.locals.rate = 1;
+
+        articles.forEach(function(item){
+            res.locals.article = item;
+        });
+        
         
         res.setToastMessage("Article rated!");
         res.redirect("/");
