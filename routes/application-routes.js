@@ -87,16 +87,7 @@ router.post("/comments", verifyAuthenticated, async function(req, res){
         console.log(err.message);
     });*/
    // res.send("review comments");
-   try {
-    await articlesDao.updateRate(totalRate, id);
-    res.setToastMessage("Article rated!");
-    res.redirect("/");
-}
-catch (err) {
-    res.setToastMessage("Unable to update the rate for this article! plz try again!");
-    res.redirect("/");
-}
-});
+
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
 // WORKING ON THIS
