@@ -40,12 +40,14 @@ router.post("/submit", async function (req, res) {
 
 router.get("/checkUsername", async function(req, res){
     
-    await userDao.retrieveAllUsers();
-    console.log(await userDao.retrieveAllUsers());
+    JSON.stringify(await userDao.retrieveAllUsers());
+    // console.log(JSON.stringify(await userDao.retrieveAllUsers()));//ok
+    
+    // console.log(await userDao.retrieveAllUsers());//ok
 
     // Method 2: Verify username availability but could query username
-    // const username= req.query.username;
-    // console.log(`usernameCheck:${username}`); // undefined
+    const username= req.query.username;
+    console.log(`usernameCheck:${username}`); // undefined
 
     // const user = await userDao.retrieveUserByUsername(username);
 
