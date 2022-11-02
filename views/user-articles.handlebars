@@ -1,9 +1,7 @@
-
-
 <div class="container col-sm-12">
 
     <div>
-        <h1>My Articles:{{oldTitle}}</h1>
+        <h1>My Articles:</h1>
 
         <button type="button" onclick="window.location.href='./new-article';" class="btn">Create New Article</button>
 
@@ -18,20 +16,19 @@
                 <h3>Written by {{name}}</h3>
                 <h4>Posted on {{timestamp}}</h4>
                 <div>{{{content}}}</div>
+                <p>Tags: {{this.tags}}</p>
                 
                 <form name="deleteArticle" action="./delete-article" method="POST">
                     <input type="hidden" name="articleId" id="deleteArticle" value="{{articleId}}">
                     <button type="submit" name="deleteArticle" class="btn">Delete</button>
                 </form>
-                <form name="editArticle" action="./edit-article" method="POST">
+                <form name="editArticle" action="./edit-article" method="GET">
                     <input type="hidden" name="articleId" id="editArticle" value="{{articleId}}">
                     <button type="submit" name="editArticle" class="btn">Edit</button>
                 </form>
             </li>
             {{/each}}
         </ul>
-    
-
         
     
         {{else}}

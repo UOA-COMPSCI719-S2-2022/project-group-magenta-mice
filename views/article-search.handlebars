@@ -1,0 +1,29 @@
+<div class="container">
+
+    <div>
+        <h1>Results for {{articleSearch}}</h1>
+        <form action="./search-articles" method="post">
+        <label for="articleSearch"><h2>Search All Articles:</h2></label>
+        <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
+        <button type="submit" class="btn">Search</button>
+    </form>
+    </div>
+
+    <div>
+
+        <ul>
+            {{#each articles}}
+            <li>
+                <h2>{{title}}</h2>
+                <h3>Written by {{this.name}}</h3>
+                <h4>Posted on {{this.timestamp}}</h4>
+                <div>{{{this.content}}}</div>
+                <p>Tags: {{this.tags}}</p>
+
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    
+</div>
