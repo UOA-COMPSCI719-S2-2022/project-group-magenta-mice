@@ -86,7 +86,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     const articles  = await articlesDao.retrieveAllArticles();
     //console.log(`allArticles:${articles}`); // ok
 
-    const article = await articlesDao.retrieveArticleByTile(req.body.title);
+    const article = await articlesDao.retrieveArticleBy(req.body.articleID);
     console.log(`title:${article.title}`); //?
     
 
