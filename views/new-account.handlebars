@@ -15,57 +15,30 @@
     <h1>New Account</h1>
     <form name="newForm" onsubmit="checkSamePasswords()" action="./submit" method="POST">
         <p>Choose your avatar:
-            <div class="avatorcontainer">
-           <div  class="avatar"> <label><input type="radio" name="avatar" id="blue" value="blue.png"  ><img src="./avatar/blue.png" width="90"></label> </div>
-           <div  class="avatar"> <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label> </div> 
-           <div  class="avatar"> <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label> </div> 
-           <div  class="avatar"> <label><input type="radio" name="avatar" id="dragonite" value="Dragonite.png" > <img src="./avatar/Dragonite.png" width="120"></label> </div> 
-           <div  class="avatar">  <label><input type="radio" name="avatar" id="turtle" value="turtle.png" ><img src="./avatar/turtle.png" width="150"></label> </div> 
-           <div  class="avatar">  <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label> </div> 
-           <div  class="avatar">  <label><input type="radio" name="avatar" id="mickey" value="Mickey_Mouse_Disney_1.webp" > <img src="./avatar/Mickey_Mouse_Disney_1.webp" width="90"></label> </div> 
+            <div>
+            <label><input type="radio" name="avatar" id="blue" value="blue.png"  ><img src="./avatar/blue.png" width="90"></label> 
+            <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label> 
+            <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label>
+            <label><input type="radio" name="avatar" id="turtle" value="turtle.png" ><img src="./avatar/turtle.png" width="150"></label>  
+           <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label>
             </div>
         </p>
-        
+        {{!-- fetch email from client side/html and check with sql? --}}
     <script>
-            async function checkUsername(){
-
-                const input = document.getElementById("txtUsername");
-                //input.value = "Hacked!"; //ok
+            async function keyup(){
+               
+               /* const userIsExisted = await fetch(`/checkUsername`); 
+                console.log(`userIsExisted:${userIsExisted}`);
                 
-               // Method 1: Fetch all users data and verify username availability
-                const all = await fetch("http://localhost:3000/checkUsername", {
-                    method: "get",
-                });
-                const allUsers = await all.json();
-                console.log(allUsers);//xx
-
-                //var input = document.getElementById('inpputId');
-                var parameters=input.name+"="+input.value;
-                var http=new XMLHttpRequest();
-                http.open('POST','yourfile.php',true);
-                http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                http.setRequestHeader("Content-length", parameters.length);
-                http.setRequestHeader("Connection", "close");
-                http.onload=function(){
-                    cosole.log("send param works");
-
-                // After receiving all users data, verify username availibility
-                    allUsers.forEach(function(user){
-                        if(input.value !== user.username){
-                            console.log("Username available.");
-                                return;
-                        }else{
-                            console.log("Username existed!");
-                                input.value = "Username existed!";
-                                return input.value;
-                        }
-                    });
-                }
-                http.send(parameters);
-
-
+                {{!-- if(await userIsExisted.json();){
+                    var x = document.getElementById("txtUsername");
+                    x.value = x.value.toUpperCase();
                 
-    
+                }else{
+                    return;
+                } --}}*/
+            const username  = 
+
                 
             }
     </script> 
@@ -74,8 +47,8 @@
         <p>
             <label for="txtUsername">Username:</label>
 
-            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()"  >
-
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="keyup()" >
+            <div id="status"></div>
 
         </p>
         <p>
@@ -95,7 +68,6 @@
         <p>
             <label for="txtBirthdat">Birthday:</label>
             <input type="text" name="birthday" id="txtBirthday" class="txtbox" placeholder="YYYY/MM/DD">
-            
         </p>
         <p>
             <label for="email">Email:</label>
