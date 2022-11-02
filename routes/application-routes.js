@@ -3,6 +3,9 @@ const router = express.Router();
 const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
 
+const Comment = require ("../middleware/comments.js")
+
+
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const userDao = require("../modules/users-dao");
@@ -44,9 +47,8 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
-    await articlesDao.createArticle(req.body.title, req.body.content, user.id);
+    await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
 
-    
     res.setToastMessage("Article posted!");
     res.redirect("./my-articles");
 
@@ -62,7 +64,23 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
 });
 
-// Stuck to point to this current article- Use Tiffany's
+// Whenever we navigate to /search-articles, search for the articles with relevant tags and render the search view
+router.post("/search-articles", async function (req, res) {
+
+    const articleSearch = req.body.articleSearch;
+    res.locals.articleSearch = articleSearch;
+
+    const articles  = await articlesDao.searchArticlesBy(req.body.articleSearch);
+    res.locals.articles = articles;
+    
+    res.locals.title = `Results for ${articleSearch}`; //at the moment searches for exact matches in tags, could change to search for close matches too?
+
+    console.log(articles);
+
+    res.render("article-search");
+
+});
+
 router.post("/rating", verifyAuthenticated, async function (req, res) {
     const articles  = await articlesDao.retrieveAllArticles();
     //console.log(`allArticles:${articles}`); // ok
@@ -82,10 +100,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 
     const currentRate = req.body.currentRate;
     const totalRate = parseInt(rating) + parseInt(currentRate);
-    
-    // console.log(`id:${id}`); // xx
-    console.log(`currentRate:${req.body.currentRate}`); // xx
-    
+    console.log(id);
 
     try {
         await articlesDao.updateRate(totalRate, id);
@@ -106,6 +121,17 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 
 });
 
+
+router.post("/comments", verifyAuthenticated, async function(req, res){
+   /* Comment.create(req.body).then((comment){
+        console.log(comment)
+        res.redirect(`/${comment.userId}`);
+    }). catch ((err){
+        console.log(err.message);
+    });*/
+    res.send("review comments");
+});
+
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
@@ -116,9 +142,8 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
         res.locals.article = item;
     })
     
-    
-
     res.render("article-editor-duplicate");
 });
+
 
 module.exports = router;

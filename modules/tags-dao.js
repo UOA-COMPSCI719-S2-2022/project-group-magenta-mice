@@ -1,14 +1,38 @@
 const SQL = require("sql-template-strings");
 const dbPromise = require("./database.js");
 
-// Check if new tag exists
-async function checkTagExists(tag) {
+// Create a new tag
+async function createTag(tag) {
     const db = await dbPromise;
 
+    await db.run(SQL`
+        insert into tags (tag)
+        values(${tag})`);
 }
 
-// Create new tag
-async function createTag(tag) {
+// Retrieve a tag's id
+async function retrieveTagId(tag) {
+    const db = await dbPromise;
+
+    const tagId = await db.all(SQL`
+        select t.id as 'tagId' 
+        from tags t
+        where t.tag=${tag}`);
+
+    return tagId;
+}
+
+// Create a new tag-article link on the tagmap table
+async function createTagLink(articleId, tagId) {
+    const db = await dbPromise;
+
+    await db.run(SQL`
+        insert into tagmap (articleId, tagId)
+        values(${articleId}, ${tagId})`)
+}
+
+// Check if the tag exists already 
+async function checkTagExists(tag) {
     const db = await dbPromise;
 
     await db.run(SQL``);
@@ -23,5 +47,7 @@ async function deleteTag(tag) {
 // Export functions.
 module.exports = {
     checkTagExists,
-    createTag
+    createTag,
+    createTagLink,
+    retrieveTagId
 };

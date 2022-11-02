@@ -28,10 +28,12 @@ create table articles (
     content text not null,
     timestamp timestamp not null,
     rate integer not null default 0,
+	tags varchar (256),
     authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
     ON DELETE CASCADE
 );
+
 	
 
 

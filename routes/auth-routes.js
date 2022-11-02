@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
-
+const bcrypt = require("bcrypt");
 
 
 
@@ -83,7 +83,7 @@ router.post("/login", async function (req, res) {
         // Auth fail
         res.locals.user = null;
         res.setToastMessage("Authentication failed! User dose not exist");
-        
+ 
     }
     res.redirect("./login");
 });
