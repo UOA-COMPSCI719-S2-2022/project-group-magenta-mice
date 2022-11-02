@@ -28,10 +28,11 @@ async function retrieveArticleBy(id) {
     const article = await db.all(SQL`
         select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags'
         from articles a, users u
-        where a.id=${id}`);
+        where a.id=${id} and a.authorID=u.id`);
 
     return article;
 }
+
 
 // Retrieve an article's ID
 async function retrieveArticleId(title, content, user) {
@@ -54,6 +55,7 @@ async function retrieveAllArticles() {
         select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags',a.rate as 'rate', a.id as 'id' 
 
         from articles a, users u
+        where a.authorID = u.id
         order by a.timestamp desc`);
 
     return allArticles;

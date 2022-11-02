@@ -1,6 +1,7 @@
 const { v4: uuid } = require("uuid");
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 const bcrypt = require("bcrypt");
 
@@ -16,9 +17,9 @@ const articlesDao = require("../modules/articles-dao.js");
 // Otherwise, render the "home" view.
 router.get("/login", async function (req, res) {
 
-    res.locals.title = "All Articles";
-    const articles  = await articlesDao.retrieveAllArticles();
-    res.locals.articles = articles;
+    // res.locals.title = "All Articles";
+    // const articles  = await articlesDao.retrieveAllArticles();
+    // res.locals.articles = articles;
 
     if (res.locals.user) {
         
@@ -61,28 +62,30 @@ router.post("/login", async function (req, res) {
                 await userDao.updateUser(user);
                 res.cookie("authToken", authToken);
                 res.locals.user = user;
-                res.redirect("/");
+                
             }
             catch (err) {
                 res.setToastMessage("update user failed");
-                res.redirect("./login");
+                
             }
 
         } else {
             // Auth fail
             res.locals.user = null;
             res.setToastMessage("Authentication failed! Password not match! Please try again");
-            res.redirect("./login");
+            
         }
+        
     }
 
     // Otherwise, if there's no matching user...
     else {
         // Auth fail
         res.locals.user = null;
-        res.setToastMessage("Authentication failed! User does not exist");
-        res.redirect("./login");
+        res.setToastMessage("Authentication failed! User dose not exist");
+ 
     }
+    res.redirect("./login");
 });
 
 // Whenever we navigate to /logout get, delete the authToken cookie.

@@ -39,17 +39,29 @@ router.post("/submit", async function (req, res) {
 });
 
 router.get("/checkUsername", async function(req, res){
-    let username= req.query.username;
-    console.log(`usernameCheck:${username}`);
-    if(await userDao.retrieveUserByUsername(username).username === undefined){
-        console.log("checking username-undefined!");
-        
-        return true;
-    }else{
-        console.log("checking username-ok!");
-        res.setToastMessage("Username existed!");
-        return false;
-    }
+    
+    JSON.stringify(await userDao.retrieveAllUsers());
+    // console.log(JSON.stringify(await userDao.retrieveAllUsers()));//ok
+    
+    // console.log(await userDao.retrieveAllUsers());//ok
+
+    // Method 2: Verify username availability but could query username
+    const username= req.query.username;
+    console.log(`usernameCheck:${username}`); // undefined
+
+    // const user = await userDao.retrieveUserByUsername(username);
+
+    //     if(user.username !== undefined){
+    //         res.setToastMessage("Username existed!");
+    //         console.log("checking username existed!");
+
+    //         return false;
+    //     }else{
+    //         res.setToastMessage("Username available");
+    //         console.log("checking username new!");
+            
+    //         return true;
+    //     }
 
 
 });

@@ -1,12 +1,10 @@
 <div class="container">
-   {{#each article}}
-    <h1>New Article</h1>
+    <div>{{{article.oldContent}}}</div>
+    <h1>Edit Article</h1>
     <form action="./submit-article" method="post">
         <label for="title"><h2>Title:</h2></label>
-        <input type="text" id="title" class="txtbox" name="title" value="{{title}}"><br>
-        <textarea name="content" id="articleContent" class="txtbox"></textarea>
+        <input type="text" id="title" class="txtbox" name="title" value="{{article.oldTitle}}"><br>
+        <textarea name="content" id="articleContent" class="txtbox">{{{article.oldContent}}}</textarea>
         <button type="submit" class="btn">Post!</button>
-        {{{this.content}}}
     </form>
-    {{/each}}
 </div>

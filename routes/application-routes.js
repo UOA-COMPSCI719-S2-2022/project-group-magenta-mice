@@ -11,11 +11,13 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
-router.get("/", async function (req, res) {
+router.get("/login", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
+
+
     res.locals.articles = articles;
-    //console.log(articles);
+    console.log(articles);
     res.render("home");
 });
 
@@ -48,7 +50,7 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
 
     res.setToastMessage("Article posted!");
-    res.redirect("/my-articles");
+    res.redirect("./my-articles");
 
 });
 
@@ -61,22 +63,6 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
     res.redirect("/my-articles");
 
 });
-
-//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-// WORKING ON THIS
-/*router.post("/edit-article", verifyAuthenticated, async function(req, res) {
-
-    res.locals.title = "Edit Article";
-
-    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
-    //const title = await articlesDao.retrieveArticleBy(req.body.title);
-    res.locals.title = req.body.title;
-    res.locals.article = article;
-    console.log(article);
-
-
-    res.render("article-editor-duplicate");
-});*/
 
 // Whenever we navigate to /search-articles, search for the articles with relevant tags and render the search view
 router.post("/search-articles", async function (req, res) {
@@ -96,14 +82,34 @@ router.post("/search-articles", async function (req, res) {
 });
 
 router.post("/rating", verifyAuthenticated, async function (req, res) {
+    const articles  = await articlesDao.retrieveAllArticles();
+    //console.log(`allArticles:${articles}`); // ok
+
+    const article = await articlesDao.retrieveArticleByTile(req.body.title);
+    console.log(`title:${article.title}`); //?
+    
+
+
+    const id = req.body.articleID;
+    // let article = await articlesDao.retrieveArticle(id);
+    console.log(`article:${article}`);
+    
 
     const rating = req.body.rate;
-    const id = req.body.articleID;
+    
+
     const currentRate = req.body.currentRate;
     const totalRate = parseInt(rating) + parseInt(currentRate);
     console.log(id);
+
     try {
         await articlesDao.updateRate(totalRate, id);
+
+        articles.forEach(function(item){
+            res.locals.article = item;
+        });
+        
+        
         res.setToastMessage("Article rated!");
         res.redirect("/");
     }
@@ -127,18 +133,15 @@ router.post("/comments", verifyAuthenticated, async function(req, res){
 });
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-// WORKING ON THIS
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    const article = await articlesDao.retrieveArticle(req.body.articleId);
-    const title = await articlesDao.retrieveArticle(req.body.title);
-    res.locals.title = req.body.title;
-    res.locals.article = article;
-    console.log(article);
-
-
+    let article = await articlesDao.retrieveArticle(req.body.articleId);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+    
     res.render("article-editor-duplicate");
 });
 
