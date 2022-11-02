@@ -25,8 +25,7 @@ router.get("/login", async function (req, res) {
     }
 
     else {
-        
-        
+
         res.render("home");
     }
 

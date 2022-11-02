@@ -61,6 +61,20 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
 router.post("/rating", verifyAuthenticated, async function (req, res) {
 
+    const articles  = await articlesDao.retrieveAllArticles();
+    //console.log(`allArticles:${articles}`); // ok
+
+    const article = await articlesDao.retrieveArticleBy(req.body.articleID);
+    console.log(`title:${article.title}`); //?
+    
+
+
+    const id = req.body.articleID;
+    // let article = await articlesDao.retrieveArticle(id);
+    console.log(`article:${article}`);
+    
+
+
     const rating = req.body.rate;
     const id = req.body.articleID;
     const currentRate = req.body.currentRate;
@@ -69,11 +83,11 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     try {
         await articlesDao.updateRate(totalRate, id);
         res.setToastMessage("Article rated!");
-        res.redirect("/");
+        res.redirect("./login");
     }
     catch (err) {
         res.setToastMessage("Unable to update the rate for this article! plz try again!");
-        res.redirect("/");
+        res.redirect("./login");
     }
 
 
@@ -90,17 +104,17 @@ router.post("/comments", verifyAuthenticated, async function(req, res){
 
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-// WORKING ON THIS
+
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    const article = await articlesDao.retrieveArticle(req.body.articleId);
-    const title = await articlesDao.retrieveArticle(req.body.title);
-    res.locals.title = req.body.title;
-    res.locals.article = article;
-    console.log(article);
 
+    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+    
 
     res.render("article-editor-duplicate");
 });

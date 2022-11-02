@@ -88,7 +88,7 @@ async function searchArticlesBy(articleSearch) {
     const db = await dbPromise;
 
     const articles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags', a.rate as 'rate' 
         from articles a, users u
         where tags like ${articleSearch}`);
 

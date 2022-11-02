@@ -135,7 +135,7 @@ router.post("/edit", async function (req, res) {
             console.log(user)
             await userDao.editUser(user);
             res.setToastMessage("Account updated successfully!");
-            res.redirect("/");
+            res.redirect("./login");
 
         } catch (err) {
             res.setToastMessage("Account updated failed!");
