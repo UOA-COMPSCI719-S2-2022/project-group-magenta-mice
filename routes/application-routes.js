@@ -85,7 +85,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     const articles  = await articlesDao.retrieveAllArticles();
     //console.log(`allArticles:${articles}`); // ok
 
-    const article = await articlesDao.retrieveArticleByTile(req.body.title);
+    const article = await articlesDao.retrieveArticleBy(req.body.articleID);
     console.log(`title:${article.title}`); //?
     
 
@@ -111,11 +111,11 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
         
         
         res.setToastMessage("Article rated!");
-        res.redirect("/");
+        res.redirect("./login");
     }
     catch (err) {
         res.setToastMessage("Unable to update the rate for this article! plz try again!");
-        res.redirect("/");
+        res.redirect("./login");
     }
 
 
@@ -137,7 +137,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    let article = await articlesDao.retrieveArticle(req.body.articleId);
+    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
     article.forEach(function(item){
         res.locals.article = item;
     })
