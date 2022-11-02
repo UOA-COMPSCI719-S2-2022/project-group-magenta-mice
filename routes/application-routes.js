@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
-//const tinymce = require("tinymce");
+
+const Comment = require ("../middleware/comments.js")
+
 
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
@@ -111,6 +113,33 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     }
 
 
+});
+
+
+router.post("/comments", verifyAuthenticated, async function(req, res){
+   /* Comment.create(req.body).then((comment){
+        console.log(comment)
+        res.redirect(`/${comment.userId}`);
+    }). catch ((err){
+        console.log(err.message);
+    });*/
+    res.send("review comments");
+});
+
+//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
+// WORKING ON THIS
+router.post("/edit-article", verifyAuthenticated, async function(req, res) {
+
+    //res.locals.title = "Edit Article";
+
+    const article = await articlesDao.retrieveArticle(req.body.articleId);
+    const title = await articlesDao.retrieveArticle(req.body.title);
+    res.locals.title = req.body.title;
+    res.locals.article = article;
+    console.log(article);
+
+
+    res.render("article-editor-duplicate");
 });
 
 
