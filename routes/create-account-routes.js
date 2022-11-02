@@ -38,30 +38,29 @@ router.post("/submit", async function (req, res) {
 
 });
 
+// Verify username availability 
 router.get("/checkUsername", async function(req, res){
     
-    JSON.stringify(await userDao.retrieveAllUsers());
-    // console.log(JSON.stringify(await userDao.retrieveAllUsers()));//ok
     
-    // console.log(await userDao.retrieveAllUsers());//ok
-
-    // Method 2: Verify username availability but could query username
     const username= req.query.username;
-    console.log(`usernameCheck:${username}`); // undefined
+    console.log(`usernameCheck:${username}`); // ok
 
-    // const user = await userDao.retrieveUserByUsername(username);
+    const user = await userDao.retrieveUserByUsername(username);
+    console.log(user);
 
-    //     if(user.username !== undefined){
-    //         res.setToastMessage("Username existed!");
-    //         console.log("checking username existed!");
-
-    //         return false;
-    //     }else{
-    //         res.setToastMessage("Username available");
-    //         console.log("checking username new!");
+        try{ 
+            user;
             
-    //         return true;
-    //     }
+            res.send("Username existed already!");
+            
+            
+        }catch(err){
+
+            res.send(user.username);
+
+            
+            
+        }
 
 
 });

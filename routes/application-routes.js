@@ -17,7 +17,7 @@ router.get("/login", async function (req, res) {
 
 
     res.locals.articles = articles;
-    console.log(articles);
+    // console.log(articles);
     res.render("home");
 });
 

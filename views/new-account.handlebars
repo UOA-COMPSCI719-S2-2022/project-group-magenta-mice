@@ -30,43 +30,12 @@
             async function checkUsername(){
 
                 const input = document.getElementById("txtUsername");
-                //input.value = "Hacked!"; //ok
                 
-               // Method 1: Fetch all users data and verify username availability
-                const all = await fetch("http://localhost:3000/checkUsername", {
-                    method: "get",
-                });
-                const allUsers = await all.json();
-                console.log(allUsers);//xx
-
-                //var input = document.getElementById('inpputId');
-                //var parameters=input.name+"="+input.value;
-                //var http=new XMLHttpRequest();
-                //http.open('POST','yourfile.php',true);
-                //http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                //http.setRequestHeader("Content-length", parameters.length);
-                //http.setRequestHeader("Connection", "close");
-                //http.onload=function(){
-                    cosole.log("send param works");
-
-                // After receiving all users data, verify username availibility
-                    allUsers.forEach(function(user){
-                        if(input.value !== user.username){
-                            console.log("Username available.");
-                                return;
-                        }else{
-                            console.log("Username existed!");
-                                input.value = "Username existed!";
-                                return input.value;
-                        }
-                    });
-                }
-                //http.send(parameters);
-
-
+                input.value = await fetch(`http://localhost:3000/checkUsername?username=${input.value}`);
                 
-    
                 
+                
+               
             }
     </script> 
 
@@ -74,7 +43,7 @@
         <p>
             <label for="txtUsername">Username:</label>
 
-            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()"  >
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()" value={{username}} >
 
 
         </p>
