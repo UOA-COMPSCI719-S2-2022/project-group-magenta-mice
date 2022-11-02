@@ -33,6 +33,8 @@ const { toaster } = require("./middleware/toaster-middleware.js");
 app.use(toaster);
 const { addUserToLocals } = require("./middleware/auth-middleware.js");
 app.use(addUserToLocals);
+const {addComments} = require("./middleware/comments.js");
+
 
 // Setup routes
 app.use(require("./routes/application-routes.js"));
