@@ -48,6 +48,7 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     const user = res.locals.user;
 
     await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
+    console.log(await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags));
 
     res.setToastMessage("Article posted!");
     res.redirect("./my-articles");
@@ -137,7 +138,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
 
-    let article = await articlesDao.retrieveArticle(req.body.articleId);
+    let article = await articlesDao.retrieveArticleBy(req.body.articleID);
     article.forEach(function(item){
         res.locals.article = item;
     })
