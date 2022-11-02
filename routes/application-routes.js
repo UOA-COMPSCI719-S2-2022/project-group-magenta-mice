@@ -11,8 +11,10 @@ const userDao = require("../modules/users-dao");
 router.get("/login", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
+
+
     res.locals.articles = articles;
-    //console.log(articles);
+    console.log(articles);
     res.render("home");
 });
 
@@ -43,6 +45,7 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     const user = res.locals.user;
 
     await articlesDao.createArticle(req.body.title, req.body.content, user.id);
+
     
     res.setToastMessage("Article posted!");
     res.redirect("./my-articles");
@@ -59,10 +62,10 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
 });
 
-// Stuck to point to this current article
+// Stuck to point to this current article- Use Tiffany's
 router.post("/rating", verifyAuthenticated, async function (req, res) {
     const articles  = await articlesDao.retrieveAllArticles();
-    console.log(`allArticles:${articles}`); // ok
+    //console.log(`allArticles:${articles}`); // ok
 
     const article = await articlesDao.retrieveArticleByTile(req.body.title);
     console.log(`title:${article.title}`); //?
@@ -104,7 +107,6 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 });
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-// WORKING ON THIS
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     //res.locals.title = "Edit Article";
@@ -114,7 +116,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
         res.locals.article = item;
     })
     
-    console.log(article);
+    
 
     res.render("article-editor-duplicate");
 });

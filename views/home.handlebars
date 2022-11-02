@@ -41,12 +41,14 @@
 {{#if user}}
     <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
     <p>This is your homepage!</p>
+    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Feel like wrting now?</button><br>
+    <button type="button" class="btn" onclick="window.location.href='./my-articles';" >Appreciate my work!</button>
 {{/if}}
     <p>Click <a href="./logout">here</a> to log out.</p>
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
 
-    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Create new articles!</button>
+    
 
     <div>
         <h1>All Articles:</h1>
@@ -62,18 +64,9 @@
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
 
-
-<script>
- function pointer(){
-    console.log(e.target());
-
- }
-</script>
-               
-
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
-                    <form action="./rating" method="post" onsubmit="pointer()">
+                    <form action="./rating" method="post" >
                         <select id="rating" name="rate">
                             <option value="1">Poor</option>
                             <option value="2">Fair</option>

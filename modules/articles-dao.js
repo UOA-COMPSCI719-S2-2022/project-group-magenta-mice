@@ -33,25 +33,14 @@ async function retrieveArticle(id) {
     return article;
 }
 
-// Retrive article by article Title
-async function retrieveArticleByTile(title) {
-    const db = await dbPromise;
 
-    const article = await db.all(SQL`
-        select *
-        from articles a, users u
-        where a.title=${title} and a.authorID=u.id`);
-
-    return article;
-}
-
-// Retrieve all articles
 async function retrieveAllArticles() {
     const db = await dbPromise;
 
     const allArticles = await db.all(SQL`
         select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId' 
         from articles a, users u
+        where a.authorID = u.id
         order by a.timestamp desc`);
 
     return allArticles;
@@ -92,6 +81,5 @@ module.exports = {
     retrieveArticlesBy,
     deleteArticle,
     retrieveArticle,
-    retrieveArticleByTile,
     updateRate
 };
