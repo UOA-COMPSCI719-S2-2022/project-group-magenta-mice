@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
+
 const Comment = require ("../middleware/comments.js")
+
 
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
@@ -43,7 +45,8 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
-    await articlesDao.createArticle(req.body.title, req.body.content, user.id);
+    await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
+
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
 
@@ -56,6 +59,39 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
     await articlesDao.deleteArticle(req.body.articleId);
     res.setToastMessage("Article Deleted!");
     res.redirect("/my-articles");
+
+});
+
+//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
+// WORKING ON THIS
+/*router.post("/edit-article", verifyAuthenticated, async function(req, res) {
+
+    res.locals.title = "Edit Article";
+
+    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    //const title = await articlesDao.retrieveArticleBy(req.body.title);
+    res.locals.title = req.body.title;
+    res.locals.article = article;
+    console.log(article);
+
+
+    res.render("article-editor-duplicate");
+});*/
+
+// Whenever we navigate to /search-articles, search for the articles with relevant tags and render the search view
+router.post("/search-articles", async function (req, res) {
+
+    const articleSearch = req.body.articleSearch;
+    res.locals.articleSearch = articleSearch;
+
+    const articles  = await articlesDao.searchArticlesBy(req.body.articleSearch);
+    res.locals.articles = articles;
+    
+    res.locals.title = `Results for ${articleSearch}`; //at the moment searches for exact matches in tags, could change to search for close matches too?
+
+    console.log(articles);
+
+    res.render("article-search");
 
 });
 
@@ -78,6 +114,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 
 
 });
+
 
 router.post("/comments", verifyAuthenticated, async function(req, res){
    /* Comment.create(req.body).then((comment){
@@ -104,5 +141,6 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     res.render("article-editor-duplicate");
 });
+
 
 module.exports = router;

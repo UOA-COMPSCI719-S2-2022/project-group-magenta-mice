@@ -45,6 +45,11 @@
 
     <div>
         <h1>All Articles:</h1>
+        <form action="./search-articles" method="post">
+        <label for="articleSearch"><h2>Search All Articles:</h2></label>
+        <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
+        <button type="submit" class="btn">Search</button>
+    </form>
     </div>
 
     <div>
@@ -56,8 +61,7 @@
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
-
-
+                <p>Tags: {{this.tags}}</p>
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
                     <form action="./rating" method="post">
