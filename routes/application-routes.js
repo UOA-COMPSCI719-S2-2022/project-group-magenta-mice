@@ -112,11 +112,11 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
         
         
         res.setToastMessage("Article rated!");
-        res.redirect("/");
+        res.redirect("./login");
     }
     catch (err) {
         res.setToastMessage("Unable to update the rate for this article! plz try again!");
-        res.redirect("/");
+        res.redirect("./login");
     }
 
 
