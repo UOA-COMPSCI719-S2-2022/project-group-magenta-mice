@@ -129,30 +129,20 @@ async function deleteArticle(id) {
 async function searchArticlesBy(articleSearch) {
     const db = await dbPromise;
 
-    /*const articles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags', a.rate as 'rate' 
-        from articles a, users u
-        where tags like ${articleSearch}`);*/
-
     console.log(articleSearch);
-
-    /*const articles = await db.all(SQL`
-    select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', 
-    u.name as 'name', a.id as 'articleId', t.name as 'tag', a.rate as 'rate'  
-    from tags t, tagmap tm, articles a, users u
-    WHERE tag like ${articleSearch} 
-     `); //AND articleId = tm.articleId //tm.tagId = t.id*/
      
-    const articles = await db.all(SQL`
-    select a.timestamp as 'timestamp',
-       a.content   as 'content',
-       a.title     as 'title',
-       u.name      as 'name',
-       a.id        as 'articleId',
-       t.name      as 'tag',
-       a.rate      as 'rate'
-        from articles as a join tagmap tm on a.id = tm.articleId join users u on a.authorId = u.id join tags t on tm.tagId = t.id
-        where LOWER(t.name) LIKE LOWER("%${articleSearch}%")`)
+     const stmt = await db.prepare(SQL`select a.timestamp as 'timestamp',         
+     a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId',         
+     t.name as 'tag', a.rate as 'rate' from articles 
+     as a join tagmap tm 
+     on a.id = tm.articleId 
+     join users u 
+     on a.authorId = u.id 
+     join tags t on tm.tagId = t.id          
+     where LOWER(t.name) LIKE LOWER(?)`);    
+     await stmt.bind(`%${articleSearch}%`);  
+
+     const articles = await stmt.all();
 
     console.log(articles);
     return articles;
