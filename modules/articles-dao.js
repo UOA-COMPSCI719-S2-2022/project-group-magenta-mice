@@ -13,12 +13,13 @@ async function createArticle(title, content, authorId, tags) {
 
 // Edit article, replace values except timestamp
 // Should add an -edited- tag? symbol?
-async function editArticle(article) {
+async function editArticle(title, content, id, tags) {
     const db = await dbPromise;
+
     await db.run(SQL`
         update articles
-        set title = ${article.title}, content = ${article.content}
-        where id = ${article.id}`);
+        set title = ${title}, content = ${content}, tags = ${tags}
+        where id=${id}`);
 }
 
 // Retrive article by article ID
