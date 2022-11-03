@@ -118,14 +118,19 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 
 });
 
-//router.post("/comments", verifyAuthenticated, async function(req, res){
-   /* Comment.create(req.body).then((comment){
-        console.log(comment)
-        res.redirect(`/${comment.userId}`);
-    }). catch ((err){
-        console.log(err.message);
-    });*/
-   // res.send("review comments");
+router.post("/comments", verifyAuthenticated, async function(req, res){
+    
+    const user = res.locals.user;
+console.log(user);
+    const articles  = await articlesDao.retrieveAllArticles();
+    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    const articleId = req.body.articleId;
+console.log(articleId);
+    await articlesDao.createComment(req.body.comments, user.id, articleId);
+    res.setToastMessage("Comment posted!");
+   
+    res.redirect("./login");
+});
 
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.

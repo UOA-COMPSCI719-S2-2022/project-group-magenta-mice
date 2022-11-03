@@ -4,11 +4,14 @@
 
 .container{
     
-    position: relative;
+    position:relative;
     align-items: center;
+    margin: 0;
+    height: 100%;
     padding: 10px;
     background: #FAF3DD;
     background-size: cover;
+    height: auto;
     display: grid;
 }
 

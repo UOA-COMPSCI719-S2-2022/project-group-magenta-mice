@@ -92,12 +92,13 @@ async function retrieveUserWithAuthToken(authToken) {
 async function retrieveUserByUsername(username) {
     const db = await dbPromise;
 
-    const user = await db.get(SQL`
+       const user = await db.get(SQL`
         select * from users
         where username = ${username}`);
 
     return user;
 }
+
 
 /**
  * Gets an array of all users from the database.

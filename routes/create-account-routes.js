@@ -41,7 +41,6 @@ router.post("/submit", async function (req, res) {
 // Verify username availability 
 router.get("/checkUsername", async function(req, res){
     
-    
     const username= req.query.username;
     console.log(`usernameCheck:${username}`); // ok
 
