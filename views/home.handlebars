@@ -65,7 +65,7 @@
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
-                <p>Tags: {{this.tags}}</p>
+                <p>Tags: {{tags}}</p>
 
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
@@ -88,13 +88,16 @@
                 <div><div class="form-group">
                     <form action="./comments" method="post">
                     <input type="hidden" value="{{user.Id}}" name="{{userId}}">
+                    <input type="hidden" value="{{this.id}}" name="{{articleId}}">
                     <input type="text" name="comment-content" id="comment-box" class="txtbox" placeholder="Enter comment">
                     <button id="post" class="btn">Post</button>
                     </form>
                 </div>
-                {{#each comment-content}}
+                {{#each comment}}
                 <ul>
-
+                    <li>
+                        <p>{{this.content}}</p>
+                    </li>
                 </ul>
                 {{/each}}
                     
