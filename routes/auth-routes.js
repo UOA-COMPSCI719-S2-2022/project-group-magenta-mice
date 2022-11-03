@@ -4,7 +4,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 
-
 // The DAO that handles CRUD operations for users.
 const userDao = require("../modules/users-dao.js");
 require("../modules/users-dao");
@@ -45,7 +44,6 @@ router.post("/login", async function (req, res) {
 
     // Find a matching user in the database
     const user = await userDao.retrieveUserByUsername(username);
-    
 
     // if there is a matching user...
     if (user) {

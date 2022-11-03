@@ -13,14 +13,16 @@ router.get("/", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
+    
     //console.log(articles);
+
     res.render("home");
 });
 
 //Whenever we navigate to /my-articles, verify that we're authenticated. If we are, render the user's articles.
 router.get("/my-articles", verifyAuthenticated, async function(req, res) {
 
-    res.locals.title = "My Articles";
+    // res.locals.title = "My Articles";
     const user = res.locals.user;
     const userArticles = await articlesDao.retrieveArticlesBy(user.id);
     res.locals.userArticles = userArticles;
@@ -34,8 +36,6 @@ router.get("/new-article", verifyAuthenticated, async function(req, res) {
     res.locals.title = "New Article";
     res.render("article-editor");
 
-    //const user = res.locals.user;
-    //console.log(user);
 });
 
 // Whenever we POST to /submit-article, verify that we're authenticated. If we are, add a new article to the database.
@@ -43,7 +43,37 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
-    await articlesDao.createArticle(req.body.title, req.body.content, user.id);
+
+    const article = {
+        title: req.body.title,
+        content: req.body.content,
+        authorId: user.id
+    };
+
+    let tag = {
+        name: req.body.tags
+    }
+
+    await articlesDao.createArticle(article);
+
+    // Check if matching tags in database
+    const tagExists = await articlesDao.checkTagExists(tag.name);
+
+    // if there is a matching tag assign that tag, otherwise create and assign a new tag
+    if (tagExists) {
+        tag = {
+            name: tagExists.name,
+            id: tagExists.id
+        }
+        console.log(`tag exists!`);
+    } else {
+        await articlesDao.createTag(tag);
+        console.log(`creating tag`);
+    }
+
+    await articlesDao.createTagMap(article.id, tag.id);
+
+
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
 
@@ -67,13 +97,8 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     const article = await articlesDao.retrieveArticleBy(req.body.articleID);
     console.log(`title:${article.title}`); //?
     
-
-
-   // const id = req.body.articleID;
     // let article = await articlesDao.retrieveArticle(id);
     console.log(`article:${article}`);
-    
-
 
     const rating = req.body.rate;
     const id = req.body.articleID;
@@ -105,22 +130,71 @@ console.log(articleId);
     res.setToastMessage("Comment posted!");
    
     res.redirect("./login");
+});
 
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
-    //res.locals.title = "Edit Article";
-
+    res.locals.title = "Edit Article";
 
     let article = await articlesDao.retrieveArticleBy(req.body.articleId);
+
+    console.log(article);
     article.forEach(function(item){
         res.locals.article = item;
     })
-    
 
     res.render("article-editor-duplicate");
 });
+
+// Whenever we navigate to /update-article, veryify that we're authenticated. If we are update the article.
+router.post("/update-article", verifyAuthenticated, async function(req, res) {
+
+    const article = {
+        title: req.body.title,
+        content: req.body.content,
+        id: req.body.articleId
+    };
+
+    await articlesDao.removeTags(article);
+
+    let tag = {
+        name: req.body.tags
+    }
+
+    await articlesDao.editArticle(article);
+
+    // Check if matching tags in database
+    const tagExists = await articlesDao.checkTagExists(tag.name);
+    console.log(tagExists);
+
+    // if there is a matching tag assign that tag, otherwise create and assign a new tag
+    if (tagExists) {
+        tag = {
+            name: tagExists.name,
+            id: tagExists.id
+        }
+        console.log(`tag exists!`);
+    } else {
+        await articlesDao.createTag(tag);
+        console.log(`creating tag`);
+    }
+
+    await articlesDao.createTagMap(article.id, tag.id);
+
+    res.setToastMessage("Article updated successfully!");
+    res.redirect("./my-articles");
 });
+
+// Whenever we navigate to /search-articles,
+router.post("/search-articles", async function(req, res) {
+    
+    const articles = await articlesDao.searchArticlesBy(req.body.articleSearch);
+    res.locals.articles = articles;
+    res.locals.articleSearch = req.body.articleSearch;
+    res.render("article-search");
+
+});
+
 module.exports = router;

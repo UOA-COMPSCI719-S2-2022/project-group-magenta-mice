@@ -3,8 +3,11 @@
     <script>
         function checkSamePasswords() {
             if (document.newForm.password !== document.newForm.confirmedPassword) {
+                document.getElementById("warning").style.display = "block";
+                
                 return false;
             } else {
+                
                 return true;
             }
         }
@@ -25,50 +28,23 @@
         </p>
         {{!-- fetch email from client side/html and check with sql? --}}
     <script>
-  
+            async function checkUsername(){
 
-    async function getUsername(){
-    let allUsernames = await fetch('/checkUsername');
-    let usernamesjson = await allUsernames.json();
-    
-    const usernameAvail = document.querySelector("#status");
-    const inputUsername = document.querySelector("#txtUsername");
-
-
-
-    for (let index=0; index < usernamesjson.length; index++){
-        if (inputUsername.value === usernamesjson[index].username){
-            
-            usernameAvail.innerhtml= "Username Taken!";
-            break 
-        }else{
-            usernameAvail.innerhtml = "Username Available"
-        }
-}
-
-  
-               /* const userIsExisted = await fetch(`/checkUsername`); 
-                console.log(`userIsExisted:${userIsExisted}`);
+                const input = document.getElementById("txtUsername");
                 
-                {{!-- if(await userIsExisted.json();){
-                    var x = document.getElementById("txtUsername");
-                    x.value = x.value.toUpperCase();
-                
-                }else{
-                    return;
-                } --}}*/
-            
-
-                
-            
+                const x = await fetch(`http://localhost:3000/checkUsername?username=${input.value}`);
+                const response = await x.json();
+                console.log(response);
+                input.value = response;
+                       
+            }
     </script> 
 
 
         <p>
             <label for="txtUsername">Username:</label>
 
-            <input type="text" name="username" id="fname" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()" value="" >
-            <div id="status"></div>
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()" >
 
         </p>
         <p>
@@ -76,10 +52,11 @@
             <input type="password" name="password" id="txtPassword" class="txtbox"
                 placeholder="any combination of a.Z.1.8.$">
         </p>
+        <p id="warning" style="display:none; color:red">⛔️ Please enter the same passowrds!</p>
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
             <input type="password" name="confirmedPassword" id="txtPasswordRe" class="txtbox"
-                placeholder="must be the same as the chosen one">
+                placeholder="same passwords as the first one">
         </p>
         <p>
             <label for="txtName">Name:</label>
@@ -99,7 +76,7 @@
                 placeholder="briefly introduce yourself.."></textarea>
         </p>
         <p>
-            <button type="submit" class="btn">Create account</button>
+            <button type="submit" class="btn">Create an account</button>
         </p>
     </form>
     <div ><p><small>Log in now?</small></p>

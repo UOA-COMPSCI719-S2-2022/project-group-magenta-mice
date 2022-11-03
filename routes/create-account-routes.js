@@ -38,36 +38,30 @@ router.post("/submit", async function (req, res) {
 
 });
 
+// Verify username availability 
 router.get("/checkUsername", async function(req, res){
-    //const allUsernames = await userDao.retrieveAllUsers();
-    const username = req.query.username;
-    const user = await userDao.retrieveUserByUsername(username);
-
-    res.send(user);
-
-    console.log(user)
-    //JSON.stringify(await userDao.retrieveAllUsers());
-    // console.log(JSON.stringify(await userDao.retrieveAllUsers()));//ok
     
-    // console.log(await userDao.retrieveAllUsers());//ok
+    const username= req.query.username;
+    console.log(`usernameCheck:${username}`); // ok
 
-    // Method 2: Verify username availability but could query username
-   // const username= req.query.username;
-   //console.log(allUsernames); // undefined
+    const user = await userDao.retrieveUserByUsername(username);
+    console.log(user);
 
-    // const user = await userDao.retrieveUserByUsername(username);
-
-    //     if(user.username !== undefined){
-    //         res.setToastMessage("Username existed!");
-    //         console.log("checking username existed!");
-
-    //         return false;
-    //     }else{
-    //         res.setToastMessage("Username available");
-    //         console.log("checking username new!");
+        try{ 
             
-    //         return true;
-    //     }
+            if(user){
+            
+                res.json("Username existed already!");
+            };
+            
+            
+        }catch(err){
+
+            res.json(user.username);
+
+            
+            
+        }
 
 
 });
@@ -101,7 +95,7 @@ router.get("/edit", async function (req, res) {
         console.log(res.locals.user)
     }
     else {
-        res.render("home");
+        res.render("edit-account");
     }
 });
 
@@ -144,7 +138,7 @@ router.post("/edit", async function (req, res) {
             res.redirect("./login");
 
         } catch (err) {
-            res.setToastMessage("Account updated failed!");
+            res.setToastMessage("Account updated failed! This username existed already.");
             res.redirect("./edit");
         }
     }
