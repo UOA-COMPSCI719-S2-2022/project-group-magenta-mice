@@ -41,7 +41,35 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
-    await articlesDao.createArticle(req.body.title, req.body.content, user.id, req.body.tags);
+    const article = {
+        title: req.body.title,
+        content: req.body.content,
+        authorId: user.id
+    };
+
+    let tag = {
+        name: req.body.tags
+    }
+
+    await articlesDao.createArticle(article);
+
+    // Check if matching tags in database
+    const tagExists = await articlesDao.checkTagExists(tag.name);
+
+    // if there is a matching tag assign that tag, otherwise create and assign a new tag
+    if (tagExists) {
+        tag = {
+            name: tagExists.name,
+            id: tagExists.id
+        }
+        console.log(`tag exists!`);
+    } else {
+        await articlesDao.createTag(tag);
+        console.log(`creating tag`);
+    }
+
+    await articlesDao.createTagMap(article.id, tag.id);
+
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
 
@@ -113,7 +141,38 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 // Whenever we navigate to /update-article, veryify that we're authenticated. If we are update the article.
 router.post("/update-article", verifyAuthenticated, async function(req, res) {
 
-    await articlesDao.editArticle(req.body.title, req.body.content, req.body.articleId, req.body.tags);
+    const article = {
+        title: req.body.title,
+        content: req.body.content,
+        id: req.body.articleId
+    };
+
+    await articlesDao.removeTags(article);
+
+    let tag = {
+        name: req.body.tags
+    }
+
+    await articlesDao.editArticle(article);
+
+    // Check if matching tags in database
+    const tagExists = await articlesDao.checkTagExists(tag.name);
+    console.log(tagExists);
+
+    // if there is a matching tag assign that tag, otherwise create and assign a new tag
+    if (tagExists) {
+        tag = {
+            name: tagExists.name,
+            id: tagExists.id
+        }
+        console.log(`tag exists!`);
+    } else {
+        await articlesDao.createTag(tag);
+        console.log(`creating tag`);
+    }
+
+    await articlesDao.createTagMap(article.id, tag.id);
+
     res.setToastMessage("Article updated successfully!");
     res.redirect("./my-articles");
 });

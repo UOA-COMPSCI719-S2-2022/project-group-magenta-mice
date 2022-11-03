@@ -45,7 +45,6 @@ router.post("/login", async function (req, res) {
 
     // Find a matching user in the database
     const user = await userDao.retrieveUserByUsername(username);
-    
 
     // if there is a matching user...
     if (user) {

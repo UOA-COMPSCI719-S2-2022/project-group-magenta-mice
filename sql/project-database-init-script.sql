@@ -3,7 +3,8 @@
  * It should contain all DROP TABLE and CREATE TABLE statments, and any INSERT statements
  * required.
  */
-
+drop table if exists tagmap;
+drop table if exists tags;
 drop table if exists articles;
 drop table if exists users;
 
@@ -34,9 +35,19 @@ create table articles (
     ON DELETE CASCADE
 );
 
-	
+create table tags (
 
+	id integer not null primary key,
+	name varchar(32) not null
+);
 
+create table tagmap (
 
-
-
+	id integer not null primary key,
+	articleId integer not null,
+	tagId integer not null,
+	FOREIGN key (articleId) REFERENCES articles(id) 
+	ON DELETE CASCADE,
+	FOREIGN key (tagId) REFERENCES tags(id)
+	ON DELETE CASCADE
+);
