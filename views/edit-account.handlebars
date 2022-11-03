@@ -7,12 +7,14 @@
     <h1>Edit Account</h1>
     <form action="./edit" method="POST">
         <p>Choose your avatar:
-            <div>
-            <label><input type="radio" name="avatar" id="blue" value="blue.png" {{#if avatar}}checked{{/if}}><img src="./avatar/blue.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label>
-            <label><input type="radio" name="avatar" id="turtle" value="turtle.png"><img src="./avatar/turtle.png" width="150"></label>
-            <label><input type="radio" name="avatar" id="mouse" value="mouse.png"> <img src="./avatar/mouse.png" width="90"></label>
+             <div class="avatorcontainer">
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="blue" value="blue.png"  ><img src="./avatar/blue.png" width="90"></label> </div>
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="girl" value="girl.png" ><img src="./avatar/girl.png" width="90"></label> </div> 
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="pink" value="pink.png" > <img src="./avatar/pink.png" width="90"></label> </div> 
+           <div  class="avatar"> <label><input type="radio" name="avatar" id="dragonite" value="Dragonite.png" > <img src="./avatar/Dragonite.png" width="120"></label> </div> 
+           <div  class="avatar">  <label><input type="radio" name="avatar" id="turtle" value="turtle.png" ><img src="./avatar/turtle.png" width="150"></label> </div> 
+           <div  class="avatar">  <label><input type="radio" name="avatar" id="mouse" value="mouse.png" > <img src="./avatar/mouse.png" width="90"></label> </div> 
+           <div  class="avatar">  <label><input type="radio" name="avatar" id="mickey" value="Mickey_Mouse_Disney_1.webp" > <img src="./avatar/Mickey_Mouse_Disney_1.webp" width="90"></label> </div> 
             </div>
         </p>
         <p>
@@ -29,7 +31,7 @@
 
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
-            <input type="password" name="confirmedPassword" id="txtPasswordRe" placeholder="must be the same as the chosen one" value={{confirmedPassword}} required>
+            <input type="password" name="confirmedPassword" id="txtPasswordRe" placeholder="same passwords as the first one" value={{confirmedPassword}} required>
         </p>
         
         
@@ -51,6 +53,7 @@
 
         <p>
             <label for="txtIntroduction">Self Introduction:</label>
+
             <textarea id="txtIntroduction" rows="4" cols="40" name="introduction" placeholder="briefly introduce yourself..">{{introduction}}</textarea>
         </p>
 

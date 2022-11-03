@@ -9,6 +9,8 @@ async function createArticle(title, content, authorId, tags) {
     await db.run(SQL`
         insert into articles (title, content, authorId, timestamp, tags)
         values(${title}, ${content}, ${authorId}, datetime('now'), ${tags})`);
+
+    
 }
 
 // Edit article, replace values except timestamp
@@ -29,7 +31,7 @@ async function retrieveArticleBy(id) {
     const article = await db.all(SQL`
         select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags'
         from articles a, users u
-        where a.id=${id} and a.authorID=u.id`);
+        where a.id=${id} and a.authorId=u.id`);
 
     return article;
 }
