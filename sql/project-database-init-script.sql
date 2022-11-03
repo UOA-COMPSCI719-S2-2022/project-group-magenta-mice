@@ -3,10 +3,10 @@
  * It should contain all DROP TABLE and CREATE TABLE statments, and any INSERT statements
  * required.
  */
-
+drop table if exists comments;
 drop table if exists articles;
 drop table if exists users;
-drop table if exists comments;
+
 
 
 create table users (
@@ -37,10 +37,12 @@ create table articles (
 
 create table comments (
 	id integer not null primary key,
+    userId integer not null,
 	comments varchar(512) not null,
     timestamp timestamp not null,
 	articleId integer not null,
 	FOREIGN KEY (articleId) REFERENCES articles(id)
+    FOREIGN KEY (userId) REFERENCES users(id)
 	ON DELETE CASCADE
 );
 

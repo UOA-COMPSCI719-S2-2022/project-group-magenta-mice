@@ -96,8 +96,12 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 router.post("/comments", verifyAuthenticated, async function(req, res){
     
     const user = res.locals.user;
-
-    await articlesDao.createComment(req.body.comments, user.id);
+console.log(user);
+    const articles  = await articlesDao.retrieveAllArticles();
+    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    const articleId = req.body.articleId;
+console.log(articleId);
+    await articlesDao.createComment(req.body.comments, user.id, articleId);
     res.setToastMessage("Comment posted!");
    
     res.redirect("./login");

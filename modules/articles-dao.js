@@ -102,10 +102,10 @@ async function updateRate(rate, articleID) {
 }
 
 //create new comment
-async function createComment(comments, articleId) {
+async function createComment(comments, articleId, userId) {
     const db = await dbPromise;
     await db.run(SQL`
-        insert into comments (comments, timestamp) values(${comments}, datetime('now')) where articleId = ${articleId}`);
+        insert into comments (comments, timestamp, articleId, userId) values(${comments}, ${articleId}, ${userId}, datetime('now'))`);
 }
 
 // Export functions.
