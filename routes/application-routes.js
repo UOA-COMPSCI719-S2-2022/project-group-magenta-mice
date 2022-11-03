@@ -69,7 +69,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
     
 
 
-    const id = req.body.articleID;
+   // const id = req.body.articleID;
     // let article = await articlesDao.retrieveArticle(id);
     console.log(`article:${article}`);
     
@@ -94,13 +94,13 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 });
 
 router.post("/comments", verifyAuthenticated, async function(req, res){
-   /* Comment.create(req.body).then((comment){
-        console.log(comment)
-        res.redirect(`/${comment.userId}`);
-    }). catch ((err){
-        console.log(err.message);
-    });*/
-   // res.send("review comments");
+    
+    const user = res.locals.user;
+
+    await articlesDao.createComment(req.body.comments, user.id);
+    res.setToastMessage("Comment posted!");
+   
+    res.redirect("./login");
 
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
@@ -118,5 +118,5 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     res.render("article-editor-duplicate");
 });
-
+});
 module.exports = router;

@@ -6,6 +6,7 @@
 
 drop table if exists articles;
 drop table if exists users;
+drop table if exists comments;
 
 
 create table users (
@@ -32,6 +33,15 @@ create table articles (
     authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
     ON DELETE CASCADE
+);
+
+create table comments (
+	id integer not null primary key,
+	comments varchar(512) not null,
+    timestamp timestamp not null,
+	articleId integer not null,
+	FOREIGN KEY (articleId) REFERENCES articles(id)
+	ON DELETE CASCADE
 );
 
 	

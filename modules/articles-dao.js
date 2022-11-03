@@ -101,6 +101,13 @@ async function updateRate(rate, articleID) {
     await db.run(SQL`update articles set rate = ${rate} where id = ${articleID}`);
 }
 
+//create new comment
+async function createComment(comments, articleId) {
+    const db = await dbPromise;
+    await db.run(SQL`
+        insert into comments (comments, timestamp) values(${comments}, datetime('now')) where articleId = ${articleId}`);
+}
+
 // Export functions.
 module.exports = {
     createArticle,
@@ -111,5 +118,6 @@ module.exports = {
     retrieveArticleBy,
     retrieveArticleId,
     searchArticlesBy,
-    updateRate
+    updateRate,
+    createComment,
 };
