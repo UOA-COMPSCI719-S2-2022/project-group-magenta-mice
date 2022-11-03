@@ -36,6 +36,8 @@ create table articles (
     authorId integer not null,
     FOREIGN key (authorId) REFERENCES users(id)
     ON DELETE CASCADE
+    
+     
 );
 
 create table comments (
@@ -44,16 +46,13 @@ create table comments (
 	comments varchar(512) not null,
     timestamp timestamp not null,
 	articleId integer not null,
-	FOREIGN KEY (articleId) REFERENCES articles(id)
+	FOREIGN KEY (articleId) REFERENCES articles(id) ON DELETE CASCADE
     FOREIGN KEY (userId) REFERENCES users(id)
-	ON DELETE CASCADE
+    ON DELETE CASCADE
+	
 );
 
-	id integer not null primary key,
-	content varchar(512) not null,
-	FOREIGN KEY (articleId) REFERENCES articles(id)
-	ON DELETE CASCADE
-);
+
 
 create table tags (
 

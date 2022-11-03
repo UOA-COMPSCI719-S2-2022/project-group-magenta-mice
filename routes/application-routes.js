@@ -9,7 +9,7 @@ const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
-router.get("/", async function (req, res) {
+router.get("/login", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
@@ -121,12 +121,13 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 router.post("/comments", verifyAuthenticated, async function(req, res){
     
     const user = res.locals.user;
-console.log(user);
+    console.log(user);
     const articles  = await articlesDao.retrieveAllArticles();
     const article = await articlesDao.retrieveArticleBy(req.body.articleId);
     const articleId = req.body.articleId;
-console.log(articleId);
-    await articlesDao.createComment(req.body.comments, user.id, articleId);
+    console.log(articleId);
+    await articlesDao.createComment(req.body.comments, articleId, user.id);
+    
     res.setToastMessage("Comment posted!");
    
     res.redirect("./login");

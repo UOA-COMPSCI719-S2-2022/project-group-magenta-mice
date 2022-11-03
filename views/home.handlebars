@@ -90,11 +90,14 @@
                     <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
                     <button id="post" class="btn">Post</button>
                     </form>
-                </div>
-                {{#each this.comments}}
+                
+                <div>
+                {{#each comments}}
                 <ul>
+                    {{this}}
                 </ul>
                 {{/each}}
+                
                     
                 </div>
 
