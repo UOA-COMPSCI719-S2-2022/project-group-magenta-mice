@@ -49,14 +49,16 @@ router.get("/checkUsername", async function(req, res){
     console.log(user);
 
         try{ 
-            user;
             
-            res.send("Username existed already!");
+            if(user){
+            
+                res.json("Username existed already!");
+            };
             
             
         }catch(err){
 
-            res.send(user.username);
+            res.json(user.username);
 
             
             

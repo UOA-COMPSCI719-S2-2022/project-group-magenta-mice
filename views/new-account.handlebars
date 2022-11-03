@@ -31,7 +31,10 @@
 
                 const input = document.getElementById("txtUsername");
                 
-                input.value = await fetch(`http://localhost:3000/checkUsername?username=${input.value}`);
+                const x = await fetch(`http://localhost:3000/checkUsername?username=${input.value}`);
+                const response = await x.json();
+                console.log(response);
+                input.value = response;
                 
                 
                 
