@@ -3,8 +3,11 @@
     <script>
         function checkSamePasswords() {
             if (document.newForm.password !== document.newForm.confirmedPassword) {
+                document.getElementById("warning").style.display = "block";
+                
                 return false;
             } else {
+                
                 return true;
             }
         }
@@ -46,7 +49,7 @@
         <p>
             <label for="txtUsername">Username:</label>
 
-            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()" value={{username}} >
+            <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" onkeyup="checkUsername()" >
 
 
         </p>
@@ -55,10 +58,11 @@
             <input type="password" name="password" id="txtPassword" class="txtbox"
                 placeholder="any combination of a.Z.1.8.$">
         </p>
+        <p id="warning" style="display:none; color:red">⛔️ Please enter the same passowrds!</p>
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
             <input type="password" name="confirmedPassword" id="txtPasswordRe" class="txtbox"
-                placeholder="must be the same as the chosen one">
+                placeholder="same passwords as the first one">
         </p>
         <p>
             <label for="txtName">Name:</label>
@@ -79,7 +83,7 @@
                 placeholder="briefly introduce yourself.."></textarea>
         </p>
         <p>
-            <button type="submit" class="btn">Create account</button>
+            <button type="submit" class="btn">Create an account</button>
         </p>
     </form>
     <div ><p><small>Log in now?</small></p>

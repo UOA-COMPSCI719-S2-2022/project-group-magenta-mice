@@ -96,7 +96,7 @@ router.get("/edit", async function (req, res) {
         console.log(res.locals.user)
     }
     else {
-        res.render("home");
+        res.render("edit-account");
     }
 });
 
@@ -136,10 +136,10 @@ router.post("/edit", async function (req, res) {
             console.log(user)
             await userDao.editUser(user);
             res.setToastMessage("Account updated successfully!");
-            res.redirect("/");
+            res.redirect("./login");
 
         } catch (err) {
-            res.setToastMessage("Account updated failed!");
+            res.setToastMessage("Account updated failed! This username existed already.");
             res.redirect("./edit");
         }
     }
