@@ -13,14 +13,16 @@ router.get("/", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
+    
     //console.log(articles);
+
     res.render("home");
 });
 
 //Whenever we navigate to /my-articles, verify that we're authenticated. If we are, render the user's articles.
 router.get("/my-articles", verifyAuthenticated, async function(req, res) {
 
-    res.locals.title = "My Articles";
+    // res.locals.title = "My Articles";
     const user = res.locals.user;
     const userArticles = await articlesDao.retrieveArticlesBy(user.id);
     res.locals.userArticles = userArticles;
@@ -40,6 +42,7 @@ router.get("/new-article", verifyAuthenticated, async function(req, res) {
 router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
+
 
     const article = {
         title: req.body.title,
@@ -69,6 +72,7 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
     }
 
     await articlesDao.createTagMap(article.id, tag.id);
+
 
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
@@ -130,6 +134,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
     res.locals.title = "Edit Article";
 
     let article = await articlesDao.retrieveArticleBy(req.body.articleId);
+
     console.log(article);
     article.forEach(function(item){
         res.locals.article = item;
