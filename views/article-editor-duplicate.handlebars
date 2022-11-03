@@ -1,10 +1,13 @@
-<div class="container">
+<div class="container col-sm-12">
     
     <h1>Edit Article</h1>
-    <form action="./edit-article" method="post">
+    <form action="./update-article" method="post">
         <label for="title"><h2>Title:</h2></label>
         <input type="text" id="title" class="txtbox" name="title" value="{{article.title}}"><br>
         <textarea name="content" id="articleContent" class="txtbox">{{{article.content}}}</textarea>
-        <button type="submit" class="btn">Post!</button>
+        <input type="hidden" name="articleId" id="articleId" value="{{article.articleId}}">
+        <label for="tags"><h4>Tags:</h4></label>
+        <input type="text" id="tags" class="txtbox" name="tags" placeholder="Add your tags..." value="{{article.tags}}"><br>
+        <button type="submit" class="btn">Confirm Edit!</button>
     </form>
 </div>

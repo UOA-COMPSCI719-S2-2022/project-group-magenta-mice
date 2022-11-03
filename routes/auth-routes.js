@@ -4,9 +4,6 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 
-
-
-
 // The DAO that handles CRUD operations for users.
 const userDao = require("../modules/users-dao.js");
 require("../modules/users-dao");
@@ -27,8 +24,7 @@ router.get("/login", async function (req, res) {
     }
 
     else {
-        
-        
+
         res.render("home");
     }
 
