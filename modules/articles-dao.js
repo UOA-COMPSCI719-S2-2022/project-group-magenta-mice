@@ -38,6 +38,7 @@ async function checkTagExists(tag) {
     return tagExists;
 }
 
+// Delete tags from article thru tagmap link
 async function removeTags(article) {
     const db = await dbPromise;
 
@@ -70,24 +71,11 @@ async function retrieveArticleBy(id) {
     const db = await dbPromise;
 
     const article = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags'
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId'
         from articles a, users u
         where a.id=${id} and a.authorId=u.id`);
 
     return article;
-}
-
-
-// Retrieve an article's ID
-async function retrieveArticleId(title, content, user) {
-    const db = await dbPromise;
-
-    const articleId = await db.all(SQL`
-        select a.id as 'articleId' 
-        from articles a
-        where a.title=${title} and a.content=${content} and a.authorId=${user}`);
-
-    return articleId;
 }
 
 // Retrieve all articles
@@ -96,7 +84,7 @@ async function retrieveAllArticles() {
 
     const allArticles = await db.all(SQL`
 
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags',a.rate as 'rate', a.id as 'id' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.rate as 'rate', a.id as 'id' 
 
         from articles a, users u
         where a.authorID = u.id
@@ -110,7 +98,7 @@ async function retrieveArticlesBy(userID) {
     const db = await dbPromise;
 
     const articles = await db.all(SQL`
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.tags as 'tags' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId'
         from articles a, users u
         where u.id = ${userID}
         and a.authorId = u.id
@@ -127,24 +115,24 @@ async function deleteArticle(id) {
 }
 
 
-// Retrieve articles by tag
-async function searchArticlesBy(articleSearch) {
+// Retrieve articles by tag search
+async function searchArticlesBy(tagSearch) {
     const db = await dbPromise;
 
-    console.log(articleSearch);
+    console.log(tagSearch);
      
-     const stmt = await db.prepare(SQL`select a.timestamp as 'timestamp',         
-     a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId',         
-     t.name as 'tag', a.rate as 'rate' from articles 
-     as a join tagmap tm 
-     on a.id = tm.articleId 
-     join users u 
-     on a.authorId = u.id 
-     join tags t on tm.tagId = t.id          
-     where LOWER(t.name) LIKE LOWER(?)`);    
-     await stmt.bind(`%${articleSearch}%`);  
+    const stmt = await db.prepare(SQL`select a.timestamp as 'timestamp',         
+    a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId',         
+    t.name as 'tag', a.rate as 'rate' from articles 
+    as a join tagmap tm 
+    on a.id = tm.articleId 
+    join users u 
+    on a.authorId = u.id 
+    join tags t on tm.tagId = t.id          
+    where LOWER(t.name) LIKE LOWER(?)`);    
+    await stmt.bind(`%${tagSearch}%`);  
 
-     const articles = await stmt.all();
+    const articles = await stmt.all();
 
     console.log(articles);
     return articles;
@@ -160,8 +148,33 @@ async function updateRate(rate, articleID) {
 async function createComment(comments, articleId, userId) {
     const db = await dbPromise;
     await db.run(SQL`
-        insert into comments (comments, timestamp, articleId, userId) values(${comments}, ${articleId}, ${userId}, datetime('now'))`);
+        insert into comments(comments, timestamp, articleId, userId) 
+        values(${comments}, datetime('now'), ${articleId}, ${userId})`);
 }
+
+async function retrieveCommentsBy(articleId) {
+    const db = await dbPromise;
+
+    const comments = await db.all(SQL`
+        select c.timestamp as 'timestamp', c.comments as 'comments'
+        from comments c
+        where c.articleId = ${articleId}
+        order by c.timestamp desc`);
+
+    return comments;
+}
+
+async function retrieveAllComments() {
+    const db = await dbPromise;
+
+    const comments = await db.all(SQL`
+        select c.timestamp as 'timestamp', c.comments as 'comments', c.articleId as 'articleId'
+        from comments c
+        `);
+
+    return comments;
+}
+
 
 // Export functions.
 module.exports = {
@@ -171,9 +184,10 @@ module.exports = {
     retrieveArticlesBy,
     deleteArticle,
     retrieveArticleBy,
-    retrieveArticleId,
     searchArticlesBy,
     createComment,
+    retrieveCommentsBy,
+    retrieveAllComments,
     createTag,
     createTagMap,
     checkTagExists,
