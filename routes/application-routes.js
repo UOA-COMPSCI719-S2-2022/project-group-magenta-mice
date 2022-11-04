@@ -8,7 +8,7 @@ const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 
 // Whenever we navigate to / render the home view.
-router.get("/", async function (req, res) {
+router.get("/login", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
@@ -151,7 +151,7 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 });
 
 //Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-router.post("/view-article", verifyAuthenticated, async function(req, res) {
+router.post("/view-article", async function(req, res) {
 
     res.locals.title = "Article";
 
