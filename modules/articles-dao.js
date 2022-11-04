@@ -193,7 +193,7 @@ async function retrieveAllCommentsAndArticles(){
     const db = await dbPromise;
     const comments = await db.all(SQL`
     select c.comments as 'comments', c.timestamp as 'ctimestamp', c.articleId as 'articleId', u.name as 'name', 
-    a.content as 'content', a.title as 'title', a.timestamp as 'timestamp'
+    a.content as 'content', a.title as 'title', a.timestamp as 'timestamp', a.tags as 'tags', a.rate = 'rate'
     from comments as c, users as u, articles as a
     where a.id = c.articleId and a.authorId = u.id
     order by a.timestamp desc, c.timestamp desc`);

@@ -135,6 +135,7 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 
 });
 
+// Create a comment when a user logs in and am verified.
 router.post("/comments", verifyAuthenticated, async function(req, res){
     const user = res.locals.user;
     console.log(user);

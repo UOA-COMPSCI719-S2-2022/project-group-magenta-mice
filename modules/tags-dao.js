@@ -49,5 +49,6 @@ module.exports = {
     checkTagExists,
     createTag,
     createTagLink,
-    retrieveTagId
+    retrieveTagId,
+    deleteTag
 };
