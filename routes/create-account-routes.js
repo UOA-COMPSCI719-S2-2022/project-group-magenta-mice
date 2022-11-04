@@ -104,7 +104,7 @@ router.get("/edit", async function (req, res) {
 router.post("/edit", async function (req, res) {
     // Find a matching user in the database
 
-    const userView = await userDao.retrieveUserByUsername(res.locals.user.name);
+    const userView = await userDao.retrieveUserByUsername(res.locals.user.username);
     // console.log(userView)
 
     // generate salt to hash password

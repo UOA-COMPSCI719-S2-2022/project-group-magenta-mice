@@ -12,9 +12,9 @@ const userDao = require("../modules/users-dao");
 // Whenever we navigate to / render the home view.
 router.get("/login", async function (req, res) {
     // Original code for general/non-login view
-    // res.locals.title = "All Articles";
-    // const articles  = await articlesDao.retrieveAllArticles();
-    // res.locals.articles = articles;
+    res.locals.title = "All Articles";
+    const articles  = await articlesDao.retrieveAllArticles();
+    res.locals.articles = articles;
     // console.log(articles);
 
     // Method failed: If I res.locals.commentsEachArticle (from displayComment), two res at the same place, crash.
@@ -22,11 +22,11 @@ router.get("/login", async function (req, res) {
     // Join tabls of comments and articles: Can see comments, but 1. retrieveAllCommentsAndArticles() 
     // can't discern comment's username/article author name 
     // 2.One article appears the same time as the comments number    
-    const all = await articlesDao.retrieveAllCommentsAndArticles();
-    console.log(`all:${all}`); // can't do 2 res. infinate.
-    const comments = await articlesDao.retrieveAllComments();
-    console.log(`comments:${comments}`);
-    res.locals.articles = all;
+    // const all = await articlesDao.retrieveAllCommentsAndArticles();
+    // console.log(`all:${all}`); // can't do 2 res. infinate.
+    // const comments = await articlesDao.retrieveAllComments();
+    // console.log(`comments:${comments}`);
+    // res.locals.articles = all;
 
     
 
