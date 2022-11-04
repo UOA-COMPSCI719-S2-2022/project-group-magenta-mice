@@ -1,9 +1,9 @@
-<body>
+
 <div class="container col-sm-12">
 
 
 <div class="container">
-
+{{#unless user}}
     <div id="login">
         <div class="dropdown">
             <button class="dropbtn">Login</button>
@@ -15,7 +15,7 @@
                     </div>
                     <div class="flex-col mb">
                         <label for="txtPassword" class="txt">Password:</label>
-                        <input type="text" id="txtPassword" name="password" required>
+                        <input type="password" id="txtPassword" name="password" required>
                     </div>
                     <dev class="flex-row justify-sb align-right">
                         <button class="dropbt" type="submit" class="txt">Submit</button>
@@ -31,24 +31,25 @@
             </div>
         </div>
     </div>
+{{/unless}}
 
 
 
 {{#if user}}
     <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
     <p>This is your homepage!</p>
-    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Feel like wrting now?</button><br>
+    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Feel like writing now?</button><br>
     <button type="button" class="btn" onclick="window.location.href='./my-articles';" >Appreciate my work!</button>
-{{/if}}
+
     <p>Click <a href="./logout">here</a> to log out.</p>
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
- 
+{{/if}}
 
     <div>
         <h1>All Articles:</h1>
         <form action="./search-articles" method="post">
-        <label for="articleSearch"><h2>Search All Articles:</h2></label>
+        <label for="articleSearch"><h2>Search All Articles by Tags:</h2></label>
         <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
         <button type="submit" class="btn">Search</button>
     </form>
@@ -116,4 +117,3 @@
 
     
 </div>
-</body>
