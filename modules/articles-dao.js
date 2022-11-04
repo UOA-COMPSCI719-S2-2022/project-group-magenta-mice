@@ -171,7 +171,7 @@ async function retrieveCommentsByArticleId(articleId){
     select c.comments as 'comments', c.timestamp as 'timestamp', c.articleId as 'articleId', u.name as 'name'
     from comments as c, users as u, articles as a
     where a.id = ${articleId} and a.id = c.articleId and c.userId = u.id 
-    order by a.timestamp desc, c.timestamp desc`);
+    order by c.timestamp desc`);
 
     return comments;
 }

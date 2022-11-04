@@ -92,17 +92,23 @@
                     </form>
                 
                 </div>
-            <ul >
+            
+         
+            <ul>
+                {{#each ../commentsEachArticle}}
             
                 <li>
                     <h4>Comments: {{comments}}</h4>
                     <h5>Posted by{{name}}</h5>
-                    <h6>{{ctimestamp}}</h6>
+                    <h6>{{timestamp}}</h6>
 
                 </li>
+                {{/each}}
             
             
             </ul>
+     
+            
             
                 
             {{/each}}

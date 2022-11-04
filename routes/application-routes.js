@@ -11,13 +11,22 @@ const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
 router.get("/login", async function (req, res) {
-    // Original code for general/non-login view
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
-    // console.log(articles);
+  
+    // Method failed: If I res.locals.commentsEachArticle (from displayComment), two res at the same place, crash.Now work
+    const articlesAll  = await articlesDao.retrieveAllArticles();
+    // for(let i=0; i< articlesAll.length; i++){
+    //     let commentsEachArticle = await articlesDao.retrieveCommentsByArticleId(articlesAll[i]);
+    //     console.log(`commentsEachArticle:${commentsEachArticle}`);
+    //     res.locals.commentsEachArticle = commentsEachArticle;
+    // }
+    
+    const commentsAll = await articlesDao.retrieveAllComments();
+    console.log(`commentsAll:${commentsAll}`);
+    res.locals.commentsEachArticle = commentsAll;
 
-    // Method failed: If I res.locals.commentsEachArticle (from displayComment), two res at the same place, crash.
 
     // Join tabls of comments and articles: Can see comments, but 1. retrieveAllCommentsAndArticles() 
     // can't discern comment's username/article author name 
@@ -27,10 +36,6 @@ router.get("/login", async function (req, res) {
     // const comments = await articlesDao.retrieveAllComments();
     // console.log(`comments:${comments}`);
     // res.locals.articles = all;
-
-    
-
-
 
     res.render("home");
 });
@@ -138,15 +143,15 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 // Create a comment when a user logs in and am verified.
 router.post("/comments", verifyAuthenticated, async function(req, res){
     const user = res.locals.user;
-    console.log(user);
+    // console.log(user);//ok
     
     const articles  = await articlesDao.retrieveAllArticles();
     const article = await articlesDao.retrieveArticleBy(req.body.articleId);
     const articleId = req.body.articleId;
     console.log(`articleId:${articleId}`);
     await articlesDao.createComment(req.body.comments, articleId, user.id);
+
     
-   
     
     res.setToastMessage("Comment posted!");
     
@@ -157,14 +162,15 @@ router.post("/comments", verifyAuthenticated, async function(req, res){
 // This won't work because both /displayComments redirect login w/ and render data, while /login render aricles
 // router.get("/displayComments", async function(req, res){
 //     const allComments = await articlesDao.retrieveAllComments();
-//     console.log(allComments);
-//     res.locals.commentsEachArticle = allComments;  
+//     console.log(`allComments:{allComments}`);
+//     // res.locals.commentsEachArticle = allComments;  
 
 //     const articlesAll  = await articlesDao.retrieveAllArticles();
 //     articlesAll.forEach(async function(article){
 //         const commentsEachArticle = await articlesDao.retrieveCommentsByArticleId(article.id);
-//         res.locals.commentsEachArticle = commentsEachArticle;
 //         console.log(`commentsEachArticle:${commentsEachArticle}`);
+//         res.locals.commentsEachArticle = commentsEachArticle;
+        
 //         res.redirect("./login"); 
         
 
