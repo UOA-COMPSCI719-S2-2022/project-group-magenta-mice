@@ -43,8 +43,7 @@
     <p>Click <a href="./logout">here</a> to log out.</p>
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
-
-    
+ 
 
     <div>
         <h1>All Articles:</h1>
@@ -83,6 +82,13 @@
                     </form>
                 </div>
 
+                <div><div class="form-group">
+                    <form action="./view-article" method="post">
+                    <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
+                    <button id="post" class="btn">View Article</button>
+                    </form>
+                </div>
+
                 <h5>Add Comment:</h5>
                 <div><div class="form-group">
                     <form action="./comments" method="post">
@@ -91,16 +97,21 @@
                     <button id="post" class="btn">Post</button>
                     </form>
                 </div>
-                {{#each this.comments}}
+                
                 <ul>
+                    {{#each ../comments}}
+                    <li>
+                        <p>{{comments}}</p>
+                    </li>
+                    {{/each}}
                 </ul>
-                {{/each}}
-                    
+                
                 </div>
 
             </li>
             {{/each}}
         </ul>
+        
     </div>
 
     

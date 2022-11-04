@@ -6,15 +6,12 @@ const Comment = require ("../middleware/comments.js")
 
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
-const userDao = require("../modules/users-dao");
 
 // Whenever we navigate to / render the home view.
 router.get("/", async function (req, res) {
     res.locals.title = "All Articles";
     const articles  = await articlesDao.retrieveAllArticles();
     res.locals.articles = articles;
-    
-    //console.log(articles);
 
     res.render("home");
 });
@@ -35,14 +32,24 @@ router.get("/new-article", verifyAuthenticated, async function(req, res) {
 
     res.locals.title = "New Article";
     res.render("article-editor");
-
 });
 
-// Whenever we POST to /submit-article, verify that we're authenticated. If we are, add a new article to the database.
+// Whenever we POST to /submit-article, verify that we're authenticated. If we are, add a new article + tags to the database.
 router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
+    const tagString = req.body.tags;
+    const tagArray = tagString.split(',').filter(element => element !== '');
+    console.log(tagArray.length);
+    console.log(tagArray);
+
+    // Check if matching tags in database
+    for (let index = 0; index < tagArray.length; index++) {
+        console.log(tagArray[index]);
+        const tagExists = await articlesDao.checkTagExists(tagArray[index]);
+        console.log(tagExists);
+      }
 
     const article = {
         title: req.body.title,
@@ -50,15 +57,9 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
         authorId: user.id
     };
 
-    let tag = {
-        name: req.body.tags
-    }
-
     await articlesDao.createArticle(article);
 
-    // Check if matching tags in database
-    const tagExists = await articlesDao.checkTagExists(tag.name);
-
+    //COME BACK TO THIS SECTION, NEED TO LOOP
     // if there is a matching tag assign that tag, otherwise create and assign a new tag
     if (tagExists) {
         tag = {
@@ -121,12 +122,13 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 router.post("/comments", verifyAuthenticated, async function(req, res){
     
     const user = res.locals.user;
-console.log(user);
-    const articles  = await articlesDao.retrieveAllArticles();
-    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    console.log(user);
+    //const articles  = await articlesDao.retrieveAllArticles();
+    //const article = await articlesDao.retrieveArticleBy(req.body.articleId);
     const articleId = req.body.articleId;
-console.log(articleId);
-    await articlesDao.createComment(req.body.comments, user.id, articleId);
+    console.log(articleId);
+    console.log(req.body.comments);
+    await articlesDao.createComment(req.body.comments, articleId, user.id);
     res.setToastMessage("Comment posted!");
    
     res.redirect("./login");
@@ -146,6 +148,23 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
     })
 
     res.render("article-editor-duplicate");
+});
+
+//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
+router.post("/view-article", verifyAuthenticated, async function(req, res) {
+
+    res.locals.title = "Article";
+
+    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    let comments = await articlesDao.retrieveCommentsBy(req.body.articleId);
+    res.locals.comments = comments;
+
+    console.log(article);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+
+    res.render("article-comments");
 });
 
 // Whenever we navigate to /update-article, veryify that we're authenticated. If we are update the article.
