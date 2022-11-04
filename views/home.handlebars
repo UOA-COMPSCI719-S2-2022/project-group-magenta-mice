@@ -2,7 +2,7 @@
 <div class="container col-sm-12">
 
 
-<div class="container">
+    <div class="container">
 
     <div id="login">
         <div class="dropdown">
@@ -84,28 +84,38 @@
                 </div>
 
                 <h5>Add Comment:</h5>
-                <div><div class="form-group">
+                <div class="form-group">
                     <form action="./comments" method="post">
                     <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
                     <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
                     <button id="post" class="btn">Post</button>
                     </form>
                 
-                <div>
-                {{#each comments}}
-                <ul>
-                    {{this}}
-                </ul>
-                {{/each}}
-                
-                    
                 </div>
+            <ul >
+            
+                <li>
+                    <h4>{{comments}}</h4>
+                    <h5>Posted by{{name}}</h5>
+                    <h6>{{ctimestamp}}</h6>
 
-            </li>
+                </li>
+            
+            
+            </ul>
+            
+                
             {{/each}}
         </ul>
+        
+        
+        
     </div>
 
+    </div>    
     
+
 </div>
 </body>
+
+

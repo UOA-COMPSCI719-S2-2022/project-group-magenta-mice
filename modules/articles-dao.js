@@ -163,6 +163,47 @@ async function createComment(comments, articleId, userId) {
         insert into comments (comments, timestamp, articleId, userId) values(${comments}, datetime('now'), ${articleId}, ${userId})`);
 }
 
+// Retrieve comments by articleId
+async function retrieveCommentsByArticleId(articleId){
+    const db = await dbPromise;
+    const comments = await db.all(SQL`
+ 
+    select c.comments as 'comments', c.timestamp as 'timestamp', c.articleId as 'articleId', u.name as 'name'
+    from comments as c, users as u, articles as a
+    where a.id = ${articleId} and a.id = c.articleId and c.userId = u.id 
+    order by a.timestamp desc, c.timestamp desc`);
+
+    return comments;
+}
+
+// Retrieve all comments
+async function retrieveAllComments(){
+    const db = await dbPromise;
+    const comments = await db.all(SQL`
+    select c.comments as 'comments', c.timestamp as 'timestamp', c.articleId as 'articleId', u.name as 'name'
+    from comments as c, users as u, articles as a
+    where a.id = c.articleId and c.userId = u.id
+    order by c.timestamp desc, a.timestamp desc`);
+
+    return comments;
+}
+
+// Retrieve all comments and articles
+async function retrieveAllCommentsAndArticles(){
+    const db = await dbPromise;
+    const comments = await db.all(SQL`
+    select c.comments as 'comments', c.timestamp as 'ctimestamp', c.articleId as 'articleId', u.name as 'name', 
+    a.content as 'content', a.title as 'title', a.timestamp as 'timestamp'
+    from comments as c, users as u, articles as a
+    where a.id = c.articleId and a.authorId = u.id
+    order by a.timestamp desc, c.timestamp desc`);
+
+    return comments;
+}
+
+
+
+
 // Export functions.
 module.exports = {
     createArticle,
@@ -174,6 +215,9 @@ module.exports = {
     retrieveArticleId,
     searchArticlesBy,
     createComment,
+    retrieveCommentsByArticleId,
+    retrieveAllComments,
+    retrieveAllCommentsAndArticles,
     createTag,
     createTagMap,
     checkTagExists,
