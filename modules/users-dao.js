@@ -83,7 +83,6 @@ async function retrieveUserWithAuthToken(authToken) {
 }
 
 /**
-
  * Gets the user with the given username from the database.
  * If there is no such user, undefined will be returned.
  * 
@@ -112,9 +111,7 @@ async function retrieveAllUsers() {
 }
 
 /**
-
  * Updates the given user in the database, not including auth token
- 
  * 
  * @param user the user to update
  */

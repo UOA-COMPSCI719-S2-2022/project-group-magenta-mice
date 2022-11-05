@@ -1,20 +1,14 @@
 <div class="container col-sm-12">
-
     <script>
         function checkSamePasswords() {
             if (document.newForm.password !== document.newForm.confirmedPassword) {
                 document.getElementById("warning").style.display = "block";
-
                 return false;
             } else {
-
                 return true;
             }
         }
     </script>
-
-
-
     <h1>New Account</h1>
     <form name="newForm" onsubmit="checkSamePasswords()" action="./submit" method="POST">
         <p>Choose your avatar:
@@ -36,27 +30,19 @@
                         width="90"></label> </div>
         </div>
         </p>
-        {{!-- fetch email from client side/html and check with sql? --}}
         <script>
             async function checkUsername() {
-
                 const input = document.getElementById("txtUsername");
-
                 const x = await fetch(`http://localhost:3000/checkUsername?username=${input.value}`);
                 const response = await x.json();
                 console.log(response);
                 input.value = response;
-
             }
         </script>
-
-
         <p>
             <label for="txtUsername">Username:</label>
-
             <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique"
                 onkeyup="checkUsername()">
-
         </p>
         <p>
             <label for="txtPassword">Choose password:</label>
@@ -93,5 +79,4 @@
     <div>
         <p><small>Log in now?</small></p>
         <button type="button" class="btn" onclick="window.location.href='./login';">Login</button>
-
-    </div>
+</div>

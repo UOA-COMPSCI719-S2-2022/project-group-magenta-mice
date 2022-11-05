@@ -1,7 +1,4 @@
-
 <div class="container col-sm-12">
-
-
 <div class="container">
 {{#unless user}}
     <div id="login">
@@ -32,9 +29,6 @@
         </div>
     </div>
 {{/unless}}
-
-
-
 {{#if user}}
     <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
     <p>This is your homepage!</p>
@@ -45,7 +39,6 @@
     <p>Click <a href="./edit">here</a> to edit account information.</p>
     <p>Click <a href="./delete">here</a> to delete account.</p>
 {{/if}}
-
     <div>
         <h1>All Articles:</h1>
         <form action="./search-articles" method="post">
@@ -54,9 +47,7 @@
         <button type="submit" class="btn">Search</button>
     </form>
     </div>
-
     <div>
-
         <ul>
             {{#each articles}}
             <li>
@@ -78,18 +69,15 @@
                         </select>
                         <input id="articleID" type="hidden"  name="articleID" value="{{this.id}}">
                         <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
-                        <button type="submit" class="btn" >Rate!</button>
-                        
+                        <button type="submit" class="btn" >Rate!</button>                    
                     </form>
                 </div>
-
                 <div><div class="form-group">
                     <form action="./view-article" method="post">
                     <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
                     <button id="post" class="btn">View Article</button>
                     </form>
                 </div>
-
                 <h5>Add Comment:</h5>
                 <div><div class="form-group">
                     <form action="./comments" method="post">
@@ -97,23 +85,17 @@
                     <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
                     <button id="post" class="btn">Post</button>
                     </form>
-                </div>
-                
+                </div>                
                 <ul>
                     {{#each ../comments}}
                     <li>
                         <p>{{comments}}</p>
                     </li>
                     {{/each}}
-                </ul>
-                
+                </ul>                
                 </div>
-
             </li>
             {{/each}}
-        </ul>
-        
-    </div>
-
-    
+        </ul>        
+    </div>    
 </div>

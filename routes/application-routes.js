@@ -1,9 +1,5 @@
 const express = require("express");
 const router = express.Router();
-//const upload = require("../middleware/multer-uploader.js");
-//const fs = require("fs");
-//const Comment = require ("../middleware/comments.js")
-
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 

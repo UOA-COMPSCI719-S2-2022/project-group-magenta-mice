@@ -1,5 +1,4 @@
 <div class="container col-sm-12">
-
     <div>
         <h1>Results for {{articleSearch}}</h1>
         <form action="./search-articles" method="post">
@@ -8,9 +7,7 @@
         <button type="submit" class="btn">Search</button>
     </form>
     </div>
-
     <div>
-
         <ul>
             {{#each articles}}
             <li>
@@ -19,11 +16,8 @@
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
                 <p>Tags: {{this.tags}}</p>
-
             </li>
             {{/each}}
         </ul>
     </div>
-
-    
 </div>

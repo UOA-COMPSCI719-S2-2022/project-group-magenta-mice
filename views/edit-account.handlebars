@@ -1,9 +1,4 @@
 <div class="container col-sm-12">
-    {{#if toastMessage}}
-    <p>{{toastMessage}}</p>
-    {{/if}}
-
-
     <h1>Edit Account</h1>
     <form action="./edit" method="POST">
         <p>Choose your avatar:
@@ -20,45 +15,33 @@
         <p>
             <label for="txtUsername">Username:</label>
             <input type="text" name="username" id="txtUsername" class="txtbox" placeholder="must be unique" value={{username}} required>
-            <p>{{username}}</p>
         </p>
-        
-        
         <p>
             <label for="txtPassword">Choose password:</label>
             <input type="password" name="password" id="txtPassword" class="txtbox" placeholder="any combination of a.Z.1.8.$" value={{passowrd}} required>
         </p>
-
         <p>
             <label for="txtPasswordRe">Re-enter password:</label>
             <input type="password" name="confirmedPassword" id="txtPasswordRe" class="txtbox" placeholder="same passwords as the first one" value={{confirmedPassword}} required>
         </p>
-        
-        
-
         <p>
             <label for="txtName">Name:</label>
             <input type="text" name="name" id="txtName" class="txtbox" placeholder="full name" value={{name}}>
         </p>
-
         <p>
             <label for="txtBirthdat">Birthday:</label>
             <input type="text" name="birthday" id="txtBirthday" class="txtbox" placeholder="YYYY/MM/DD" value={{birthday}}>
         </p>
-
         <p>
             <label for="email">Email:</label>
             <input type="email" name="email" id="email" class="txtbox" placeholder="xx@yy" value={{email}} required>
         </p>
-
         <p>
             <label for="txtIntroduction">Self Introduction:</label>
             <textarea id="txtIntroduction" rows="4" cols="40" name="introduction" class="txtbox" placeholder="briefly introduce yourself..">{{introduction}}</textarea>
         </p>
-
         <p>
             <button type="submit" class="btn">Submit</button>
         </p>
     </form>
-
 </div>
