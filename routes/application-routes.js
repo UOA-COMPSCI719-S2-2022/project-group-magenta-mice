@@ -1,25 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/multer-uploader.js");
 const fs = require("fs");
-const Comment = require ("../middleware/comments.js")
 
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
 
-// Whenever we navigate to / render the home view.
-router.get("/login", async function (req, res) {
-    res.locals.title = "All Articles";
-    const articles  = await articlesDao.retrieveAllArticles();
-    res.locals.articles = articles;
-
-    res.render("home");
-});
 
 //Whenever we navigate to /my-articles, verify that we're authenticated. If we are, render the user's articles.
 router.get("/my-articles", verifyAuthenticated, async function(req, res) {
 
-    // res.locals.title = "My Articles";
+    res.locals.title = "My Articles";
     const user = res.locals.user;
     const userArticles = await articlesDao.retrieveArticlesBy(user.id);
     res.locals.userArticles = userArticles;
@@ -39,17 +29,9 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
 
+    // Split the tag string into separate tag array
     const tagString = req.body.tags;
     const tagArray = tagString.split(',').filter(element => element !== '');
-    console.log(tagArray.length);
-    console.log(tagArray);
-
-    // Check if matching tags in database
-    for (let index = 0; index < tagArray.length; index++) {
-        console.log(tagArray[index]);
-        const tagExists = await articlesDao.checkTagExists(tagArray[index]);
-        console.log(tagExists);
-      }
 
     const article = {
         title: req.body.title,
@@ -59,20 +41,30 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     await articlesDao.createArticle(article);
 
-    //COME BACK TO THIS SECTION, NEED TO LOOP
-    // if there is a matching tag assign that tag, otherwise create and assign a new tag
-    if (tagExists) {
-        tag = {
-            name: tagExists.name,
-            id: tagExists.id
-        }
-        console.log(`tag exists!`);
-    } else {
-        await articlesDao.createTag(tag);
-        console.log(`creating tag`);
-    }
+    // Check if matching tags in database
+    for (let index = 0; index < tagArray.length; index++) {
+        const tag = tagArray[index];
+        const tagExists = await articlesDao.checkTagExists(tag);
+        res.locals.tagExists = tagExists;
 
-    await articlesDao.createTagMap(article.id, tag.id);
+        // if tag exists, assign that tag
+        if (tagExists) {
+            let tag = {
+                name: tagExists.name,
+                id: tagExists.id
+            }
+            //console.log(`tag exists!`);
+            await articlesDao.createTagMap(article.id, tag.id);
+
+        // if no tag exists, create and assign that tag
+        } else {
+            await articlesDao.createTag(tag);
+            const newTag = await articlesDao.checkTagExists(tag);
+            //console.log(`creating tag`);
+            //console.log(newTag);
+            await articlesDao.createTagMap(article.id, newTag.id);
+        }
+      }
 
 
     res.setToastMessage("Article posted!");
@@ -80,13 +72,102 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
 });
 
-
 // Whenever we POST to /delete-article, verify that we're authenticated. If we are, delete the selected article from the database.
 router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
     await articlesDao.deleteArticle(req.body.articleId);
     res.setToastMessage("Article Deleted!");
     res.redirect("/my-articles");
+
+});
+
+// Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
+router.post("/edit-article", verifyAuthenticated, async function(req, res) {
+
+    res.locals.title = "Edit Article";
+
+    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    const tags = await articlesDao.retrieveTagsBy(req.body.articleId);
+    res.locals.tags = tags;
+
+    console.log(article);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+
+    res.render("article-editor-duplicate");
+});
+
+// Whenever we navigate to /view-article retrieve relevant article and render the article-comments page
+router.post("/view-article", async function(req, res) {
+
+    res.locals.title = "Article";
+
+    const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    const comments = await articlesDao.retrieveCommentsBy(req.body.articleId);
+    const tags = await articlesDao.retrieveTagsBy(req.body.articleId);
+    res.locals.comments = comments;
+    res.locals.tags = tags;
+
+    //console.log(article);
+    article.forEach(function(item){
+        res.locals.article = item;
+    })
+
+    res.render("article-comments");
+});
+
+// Whenever we navigate to /update-article, veryify that we're authenticated. If we are update the article.
+router.post("/update-article", verifyAuthenticated, async function(req, res) {
+
+    const article = {
+        title: req.body.title,
+        content: req.body.content,
+        id: req.body.articleId
+    };
+
+    await articlesDao.editArticle(article);
+    await articlesDao.removeTags(article);
+
+    // Split the tag string into separate tag array
+    const tagString = req.body.tags;
+    const tagArray = tagString.split(',').filter(element => element !== '');
+
+    // Check if matching tags in database
+    for (let index = 0; index < tagArray.length; index++) {
+        const tag = tagArray[index];
+        const tagExists = await articlesDao.checkTagExists(tag);
+        res.locals.tagExists = tagExists;
+
+        // if tag exists, assign that tag
+        if (tagExists) {
+            let tag = {
+                name: tagExists.name,
+                id: tagExists.id
+            }
+            //console.log(`tag exists!`);
+            await articlesDao.createTagMap(article.id, tag.id);
+
+        // if no tag exists, create and assign that tag
+        } else {
+            await articlesDao.createTag(tag);
+            const newTag = await articlesDao.checkTagExists(tag);
+            //console.log(`creating tag`);
+            //console.log(newTag);
+            await articlesDao.createTagMap(article.id, newTag.id);
+        }
+      }
+    res.setToastMessage("Article updated successfully!");
+    res.redirect("./my-articles");
+});
+
+// Whenever we navigate to /search-articles, search for matching or similar tags and render the article-search page
+router.post("/search-articles", async function(req, res) {
+    
+    const articles = await articlesDao.searchArticlesBy(req.body.articleSearch);
+    res.locals.articles = articles;
+    res.locals.articleSearch = req.body.articleSearch;
+    res.render("article-search");
 
 });
 
@@ -122,98 +203,14 @@ router.post("/rating", verifyAuthenticated, async function (req, res) {
 router.post("/comments", verifyAuthenticated, async function(req, res){
     
     const user = res.locals.user;
-    console.log(user);
-    //const articles  = await articlesDao.retrieveAllArticles();
-    //const article = await articlesDao.retrieveArticleBy(req.body.articleId);
+    //console.log(user);
     const articleId = req.body.articleId;
-    console.log(articleId);
+    //console.log(articleId);
     console.log(req.body.comments);
     await articlesDao.createComment(req.body.comments, articleId, user.id);
     res.setToastMessage("Comment posted!");
    
-    res.redirect("./login");
-});
-
-
-//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-router.post("/edit-article", verifyAuthenticated, async function(req, res) {
-
-    res.locals.title = "Edit Article";
-
-    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
-
-    console.log(article);
-    article.forEach(function(item){
-        res.locals.article = item;
-    })
-
-    res.render("article-editor-duplicate");
-});
-
-//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
-router.post("/view-article", async function(req, res) {
-
-    res.locals.title = "Article";
-
-    let article = await articlesDao.retrieveArticleBy(req.body.articleId);
-    let comments = await articlesDao.retrieveCommentsBy(req.body.articleId);
-    res.locals.comments = comments;
-
-    console.log(article);
-    article.forEach(function(item){
-        res.locals.article = item;
-    })
-
-    res.render("article-comments");
-});
-
-// Whenever we navigate to /update-article, veryify that we're authenticated. If we are update the article.
-router.post("/update-article", verifyAuthenticated, async function(req, res) {
-
-    const article = {
-        title: req.body.title,
-        content: req.body.content,
-        id: req.body.articleId
-    };
-
-    await articlesDao.removeTags(article);
-
-    let tag = {
-        name: req.body.tags
-    }
-
-    await articlesDao.editArticle(article);
-
-    // Check if matching tags in database
-    const tagExists = await articlesDao.checkTagExists(tag.name);
-    console.log(tagExists);
-
-    // if there is a matching tag assign that tag, otherwise create and assign a new tag
-    if (tagExists) {
-        tag = {
-            name: tagExists.name,
-            id: tagExists.id
-        }
-        console.log(`tag exists!`);
-    } else {
-        await articlesDao.createTag(tag);
-        console.log(`creating tag`);
-    }
-
-    await articlesDao.createTagMap(article.id, tag.id);
-
-    res.setToastMessage("Article updated successfully!");
-    res.redirect("./my-articles");
-});
-
-// Whenever we navigate to /search-articles,
-router.post("/search-articles", async function(req, res) {
-    
-    const articles = await articlesDao.searchArticlesBy(req.body.articleSearch);
-    res.locals.articles = articles;
-    res.locals.articleSearch = req.body.articleSearch;
-    res.render("article-search");
-
+    res.redirect(307, "./view-article"); //307 allows us to route to post, keeps article loaded intact
 });
 
 module.exports = router;

@@ -44,6 +44,7 @@ create table comments (
     timestamp timestamp not null,
 	articleId integer not null,
 	FOREIGN KEY (articleId) REFERENCES articles(id)
+	ON DELETE CASCADE
     FOREIGN KEY (userId) REFERENCES users(id)
 	ON DELETE CASCADE
 );

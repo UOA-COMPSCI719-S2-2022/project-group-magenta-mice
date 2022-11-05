@@ -1,4 +1,3 @@
-
 <div class="container col-sm-12">
 
 
@@ -56,7 +55,7 @@
     </div>
 
     <div>
-
+        {{#if articles}}
         <ul>
             {{#each articles}}
             <li>
@@ -64,7 +63,6 @@
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
-                <p>Tags: {{tags}}</p>
 
                 <h5>Total Rates: {{this.rate}}</h5>
                 <div class="select-dropdown">
@@ -83,36 +81,18 @@
                     </form>
                 </div>
 
-                <div><div class="form-group">
+                <div class="form-group">
                     <form action="./view-article" method="post">
                     <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
-                    <button id="post" class="btn">View Article</button>
+                    <button id="post" class="btn">View Article and Comments</button>
                     </form>
                 </div>
-
-                <h5>Add Comment:</h5>
-                <div><div class="form-group">
-                    <form action="./comments" method="post">
-                    <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
-                    <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
-                    <button id="post" class="btn">Post</button>
-                    </form>
-                </div>
-                
-                <ul>
-                    {{#each ../comments}}
-                    <li>
-                        <p>{{comments}}</p>
-                    </li>
-                    {{/each}}
-                </ul>
-                
-                </div>
-
-            </li>
+          
             {{/each}}
         </ul>
-        
+        {{else}}
+        <p>There are no articles!</p>
+        {{/if}}
     </div>
 
     

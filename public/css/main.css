@@ -42,3 +42,12 @@ h2, h3, h4{
     color: white;
     font-size: 16px;
 }
+
+.tags{
+    background:none;
+    border: none;
+    color: #ffa69e;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+}
