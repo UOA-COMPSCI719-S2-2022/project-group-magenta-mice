@@ -99,7 +99,6 @@ async function retrieveAllArticles() {
     const allArticles = await db.all(SQL`
 
         select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.rate as 'rate', a.id as 'id'
-
         from articles a, users u
         where a.authorID = u.id
         order by a.timestamp desc`);

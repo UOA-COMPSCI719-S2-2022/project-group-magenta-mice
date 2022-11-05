@@ -60,7 +60,9 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
             //console.log(newTag);
             await articlesDao.createTagMap(article.id, newTag.id);
         }
+
     } 
+
 
     await articlesDao.createTagMap(article.id, tag.id);
     res.setToastMessage("Article posted!");
@@ -170,20 +172,7 @@ router.post("/update-article", verifyAuthenticated, async function(req, res) {
             await articlesDao.createTagMap(article.id, newTag.id);
         }
       }
-    const tagExists = await articlesDao.checkTagExists(tag.name);
-
-    // if there is a matching tag assign that tag, otherwise create and assign a new tag
-    if (tagExists) {
-        tag = {
-            name: tagExists.name,
-            id: tagExists.id
-        }
-   
-    } else {
-        await articlesDao.createTag(tag);
-    }
-
-    await articlesDao.createTagMap(article.id, tag.id);
+    
     res.setToastMessage("Article updated successfully!");
     res.redirect("./my-articles");
 });

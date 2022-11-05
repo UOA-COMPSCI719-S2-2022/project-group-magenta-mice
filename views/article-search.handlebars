@@ -17,7 +17,12 @@
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
                 <div>{{{this.content}}}</div>
-                <p>Tags: {{this.tags}}</p>
+                <div class="form-group">
+                    <form action="./view-article" method="post">
+                    <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
+                    <button id="post" class="btn">View Article and Comments</button>
+                    </form>
+                </div>
             </li>
             {{/each}}
         </ul>

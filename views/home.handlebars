@@ -44,8 +44,7 @@
 {{/if}}
 
     <div>
-        <h1>All Articles:</h1>
-        <form action="./search-articles" method="post">
+        <form action="./search-articles" method="post" id="searchForm">
         <label for="articleSearch"><h2>Search All Articles by Tags:</h2></label>
         <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
         <button type="submit" class="btn">Search</button>
@@ -54,7 +53,7 @@
 
     <div>
         {{#if articles}}
-        <ul>
+        <ul class="articleList">
             {{#each articles}}
             <li>
                 <h2>{{title}}</h2>
