@@ -16,7 +16,7 @@
 }
 
 p, .label{
-    color: #aed9e0;    
+    color: lightslategray;    
 }
 
 h1{
@@ -27,8 +27,9 @@ h1{
 }
 
 h2, h3, h4{
-    color: #aed9e0;
+    color: #81c7d2;
 }
+
 
 
 .txtbox{
@@ -41,4 +42,15 @@ h2, h3, h4{
     border-color: #ffa69e;
     color: white;
     font-size: 16px;
+}
+
+
+li{
+    position:relative;
+    top:-120px;
+}
+
+#serachForm{
+    float:right;
+    text-align:left;
 }

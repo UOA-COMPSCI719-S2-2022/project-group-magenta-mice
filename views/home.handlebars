@@ -41,8 +41,8 @@
 {{/if}}
     <div>
         <h1>All Articles:</h1>
-        <form action="./search-articles" method="post">
-        <label for="articleSearch"><h2>Search All Articles by Tags:</h2></label>
+        <form action="./search-articles" method="post" id="serachForm">
+        <label for="articleSearch"><h4>Search All Articles by Tags:</h4></label>
         <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
         <button type="submit" class="btn">Search</button>
     </form>
@@ -50,7 +50,7 @@
     <div>
         <ul>
             {{#each articles}}
-            <li>
+            <li id="aricleList">
                 <h2>{{title}}</h2>
                 <h3>Written by {{this.name}}</h3>
                 <h4>Posted on {{this.timestamp}}</h4>
