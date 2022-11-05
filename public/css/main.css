@@ -44,6 +44,15 @@ h2, h3, h4{
 }
 
 
+.tags{
+    background:none;
+    border: none;
+    color: #ffa69e;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+
+
 ul.articleList{
     position:relative;
     top:-120px;
@@ -52,4 +61,5 @@ ul.articleList{
 #serachForm{
     float:right;
     text-align:left;
+
 }

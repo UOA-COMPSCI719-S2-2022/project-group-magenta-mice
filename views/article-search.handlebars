@@ -1,4 +1,5 @@
 <div class="container col-sm-12">
+    <button type="button" class="btn" onclick="window.location.href='./login';" >Return to home page</button>
     <div>
         <h1>Results for {{articleSearch}}</h1>
         <form action="./search-articles" method="post">
@@ -8,6 +9,7 @@
     </form>
     </div>
     <div>
+        {{#if articles}}
         <ul>
             {{#each articles}}
             <li>
@@ -19,5 +21,8 @@
             </li>
             {{/each}}
         </ul>
+        {{else}}
+        <p>No results! Try a different tag.</p>
+        {{/if}}
     </div>
 </div>

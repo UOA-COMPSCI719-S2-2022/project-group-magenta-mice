@@ -6,17 +6,37 @@ const bcrypt = require("bcrypt");
 
 // The DAO that handles CRUD operations for users.
 const userDao = require("../modules/users-dao.js");
-require("../modules/users-dao");
-
 const articlesDao = require("../modules/articles-dao.js");
 
-// Whenever we navigate to /home, if we're already logged in, redirect to "/".
+// Whenever we navigate to /, if we're already logged in, redirect to /login.
+// Otherwise, render the "home" view.
+router.get("/", async function (req, res) {
+
+    res.locals.title = "All Articles";
+    const articles  = await articlesDao.retrieveAllArticles();
+    res.locals.articles = articles;
+
+    if (res.locals.user) {
+        
+        res.render("home");
+    }
+
+    else {
+
+        res.redirect("./login");
+    }
+
+    
+});
+
+
+// Whenever we navigate to /login, if we're already logged in, redirect to "/".
 // Otherwise, render the "home" view.
 router.get("/login", async function (req, res) {
 
-    // res.locals.title = "All Articles";
-    // const articles  = await articlesDao.retrieveAllArticles();
-    // res.locals.articles = articles;
+    res.locals.title = "All Articles";
+    const articles  = await articlesDao.retrieveAllArticles();
+    res.locals.articles = articles;
 
     if (res.locals.user) {
         
@@ -80,7 +100,7 @@ router.post("/login", async function (req, res) {
         res.setToastMessage("Authentication failed! User dose not exist");
  
     }
-    res.redirect("./login");
+    res.redirect("/");
 });
 
 // Whenever we navigate to /logout get, delete the authToken cookie.

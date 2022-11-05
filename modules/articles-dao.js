@@ -6,11 +6,11 @@ const dbPromise = require("./database.js");
 async function createArticle(article) {
     const db = await dbPromise;
 
-
     const result = await db.run(SQL`
         insert into articles (title, content, authorId, timestamp)
         values(${article.title}, ${article.content}, ${article.authorId}, datetime('now'))`);
 
+    // Get the auto-generated ID value, and assign it back to the article object.
     article.id = result.lastID;
     console.log(`article id = ${article.id}`);
 }
@@ -21,8 +21,9 @@ async function createTag(tag) {
 
     const result = await db.run(SQL`
         insert into tags(name)
-        values(${tag.name})`);
+        values(${tag})`);
 
+    // Get the auto-generated ID value, and assign it back to tag object.
     tag.id = result.lastID;
     console.log(`tag id = ${tag.id}`);
 }
@@ -32,8 +33,8 @@ async function checkTagExists(tag) {
     const db = await dbPromise;
 
     const tagExists = await db.get(SQL`
-    select * from tags
-    where name = ${tag}`);
+        select * from tags
+        where name = ${tag}`);
 
     return tagExists;
 }
@@ -55,8 +56,21 @@ async function createTagMap(articleId, tagId) {
 
 }
 
+// Retrieve tags by article id
+async function retrieveTagsBy(articleId) {
+    const db = await dbPromise;
+     
+    const tags = await db.all(SQL`
+    select t.name
+    from articles a, tags t, tagmap tm        
+    where a.id = ${articleId}
+    AND a.id=tm.articleId
+    AND t.id=tm.tagId`);    
+
+    return tags;
+}
+
 // Edit article, replace values except timestamp
-// Should add an -edited- tag? symbol?
 async function editArticle(article) {
     const db = await dbPromise;
 
@@ -84,9 +98,9 @@ async function retrieveAllArticles() {
 
     const allArticles = await db.all(SQL`
 
-        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.rate as 'rate', a.id as 'id' 
+        select a.timestamp as 'timestamp', a.content as 'content', a.title as 'title', u.name as 'name', a.id as 'articleId', a.rate as 'rate', a.id as 'id'
 
-        from articles a, users u
+        from articles a, users u, tags t, tagmap tm
         where a.authorID = u.id
         order by a.timestamp desc`);
 
@@ -156,9 +170,10 @@ async function retrieveCommentsBy(articleId) {
     const db = await dbPromise;
 
     const comments = await db.all(SQL`
-        select c.timestamp as 'timestamp', c.comments as 'comments'
-        from comments c
+        select c.timestamp as 'timestamp', c.comments as 'comments', u.name as 'name', u.avatar as 'avatar'
+        from comments c, users u
         where c.articleId = ${articleId}
+        AND u.id = c.userId
         order by c.timestamp desc`);
 
     return comments;
@@ -192,5 +207,6 @@ module.exports = {
     createTagMap,
     checkTagExists,
     removeTags,
+    retrieveTagsBy,
     updateRate
 };

@@ -1,4 +1,5 @@
 <div class="container col-sm-12">
+    <button type="button" class="btn" onclick="window.location.href='./login';" >Return to home page</button>
     <h1>Edit Article</h1>
     <form action="./update-article" method="post">
         <label for="title"><h2>Title:</h2></label>
@@ -6,7 +7,7 @@
         <textarea name="content" id="articleContent" class="txtbox">{{{article.content}}}</textarea>
         <input type="hidden" name="articleId" id="articleId" value="{{article.articleId}}">
         <label for="tags"><h4>Tags:</h4></label>
-        <input type="text" id="tags" class="txtbox" name="tags" placeholder="Add your tags..." value="{{tags}}"><br>
+        <input type="text" id="tags" class="txtbox" name="tags" placeholder="Add your tags..." value="{{#each tags}}{{name}},{{/each}}"><br>
         <button type="submit" class="btn">Confirm Edit!</button>
     </form>
 </div>
