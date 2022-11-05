@@ -2,11 +2,8 @@
     <button type="button" class="btn" onclick="window.location.href='./login';" >Return to home page</button>
     <div>
         <h1>My Articles:</h1>
-
         <button type="button" onclick="window.location.href='./new-article';" class="btn">Create New Article</button>
-
-    </div>
-    
+    </div>    
     <div>
         {{#if userArticles}}
         <ul>
@@ -16,8 +13,7 @@
                 <h3>Written by {{name}}</h3>
                 <h4>Posted on {{timestamp}}</h4>
                 <div>{{{content}}}</div>
-                <p>Tags: {{this.tags}}</p>
-                
+                <p>Tags: {{this.tags}}</p>                
                 <form name="deleteArticle" action="./delete-article" method="POST">
                     <input type="hidden" name="articleId" id="deleteArticle" value="{{articleId}}">
                     <button type="submit" name="deleteArticle" class="btn">Delete</button>
@@ -28,16 +24,10 @@
                 </form>
             </li>
             {{/each}}
-        </ul>
-        
-    
+        </ul>    
         {{else}}
-        <p>You have no articles!</p>
-       
-
+        <p>You have no articles!</p> 
         {{/if}}
         <button type="button" class="btn" onclick="window.location.href='./login';" >See what others write!</button>
-
     </div>
-
 </div>

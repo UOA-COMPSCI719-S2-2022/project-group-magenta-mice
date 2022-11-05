@@ -1,16 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const userDao = require("../modules/users-dao.js");
-
 const bcrypt = require("bcrypt");
 
 // Creat new account button
 router.get("/newAccount", function (req, res) {
-
     res.render("new-account");
 });
-
-
 
 // Create a new account and generate salt to hash password     
 router.post("/submit", async function (req, res) {
@@ -24,46 +20,27 @@ router.post("/submit", async function (req, res) {
         email: req.body.email,
         avatar: req.body.avatar,
         introduction: req.body.introduction
-
-
     };
-
     if (user.password === user.confirmedPassword) {
         await userDao.createUser(user);
         res.setToastMessage("Account created successfully!");
         res.redirect("./login");
     };
-
-
-
 });
 
-// Verify username availability 
-router.get("/checkUsername", async function(req, res){
-    
+
+// When we create a new account, verify whether the availibily of username. 
+// If the username is already existed, we needs to input a new username. 
+router.get("/checkUsername", async function(req, res){   
     const username= req.query.username;
-    console.log(`usernameCheck:${username}`); // ok
-
     const user = await userDao.retrieveUserByUsername(username);
-    console.log(user);
-
         try{ 
-            
             if(user){
-            
                 res.json("Username existed already!");
-            };
-            
-            
+            };    
         }catch(err){
-
-            res.json(user.username);
-
-            
-            
+            res.json(user.username);    
         }
-
-
 });
 
 //allows user to delete the user account and clear the local cookie
@@ -104,7 +81,7 @@ router.get("/edit", async function (req, res) {
 router.post("/edit", async function (req, res) {
     // Find a matching user in the database
 
-    const userView = await userDao.retrieveUserByUsername(res.locals.user.name);
+    const userView = await userDao.retrieveUserByUsername(res.locals.user.username);
     // console.log(userView)
 
     // generate salt to hash password
@@ -130,7 +107,8 @@ router.post("/edit", async function (req, res) {
         res.setToastMessage("Enter passwords!");
         res.redirect("./edit");
 
-    } else {
+    } 
+    else {
         try {
             console.log(user)
             await userDao.editUser(user);
@@ -144,12 +122,4 @@ router.post("/edit", async function (req, res) {
     }
 
 });
-
-
-
-
-
-
-
-
 module.exports = router;

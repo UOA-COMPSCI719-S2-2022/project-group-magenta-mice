@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
-
 const articlesDao = require("../modules/articles-dao.js");
 const { verifyAuthenticated } = require("../middleware/auth-middleware.js");
-
 
 //Whenever we navigate to /my-articles, verify that we're authenticated. If we are, render the user's articles.
 router.get("/my-articles", verifyAuthenticated, async function(req, res) {
@@ -28,8 +26,6 @@ router.get("/new-article", verifyAuthenticated, async function(req, res) {
 router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     const user = res.locals.user;
-
-    // Split the tag string into separate tag array
     const tagString = req.body.tags;
     const tagArray = tagString.split(',').filter(element => element !== '');
 
@@ -64,9 +60,11 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
             //console.log(newTag);
             await articlesDao.createTagMap(article.id, newTag.id);
         }
-      }
+    } else {
+        await articlesDao.createTag(tag);
+    }
 
-
+    await articlesDao.createTagMap(article.id, tag.id);
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
 
@@ -81,7 +79,27 @@ router.post("/delete-article", verifyAuthenticated, async function(req, res) {
 
 });
 
-// Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
+// When we log in and am verified, we can rate an article and the rating score displays by the article.
+router.post("/rating", verifyAuthenticated, async function (req, res) {
+
+    const articles  = await articlesDao.retrieveAllArticles();
+    const article = await articlesDao.retrieveArticleBy(req.body.articleID);
+    const rating = req.body.rate;
+    const id = req.body.articleID;
+    const currentRate = req.body.currentRate;
+    const totalRate = parseInt(rating) + parseInt(currentRate);
+    try {
+        await articlesDao.updateRate(totalRate, id);
+        res.setToastMessage("Article rated!");
+        res.redirect("./login");
+    }
+    catch (err) {
+        res.setToastMessage("Unable to update the rate for this article! plz try again!");
+        res.redirect("./login");
+    }
+});
+
+//Whenever we navigate to /edit-article, verify that we're authenticated. If we are, render the edit article editor.
 router.post("/edit-article", verifyAuthenticated, async function(req, res) {
 
     res.locals.title = "Edit Article";
@@ -90,7 +108,6 @@ router.post("/edit-article", verifyAuthenticated, async function(req, res) {
     const tags = await articlesDao.retrieveTagsBy(req.body.articleId);
     res.locals.tags = tags;
 
-    console.log(article);
     article.forEach(function(item){
         res.locals.article = item;
     })
@@ -108,11 +125,9 @@ router.post("/view-article", async function(req, res) {
     const tags = await articlesDao.retrieveTagsBy(req.body.articleId);
     res.locals.comments = comments;
     res.locals.tags = tags;
-
-    //console.log(article);
     article.forEach(function(item){
         res.locals.article = item;
-    })
+    });
 
     res.render("article-comments");
 });
@@ -157,6 +172,20 @@ router.post("/update-article", verifyAuthenticated, async function(req, res) {
             await articlesDao.createTagMap(article.id, newTag.id);
         }
       }
+    const tagExists = await articlesDao.checkTagExists(tag.name);
+
+    // if there is a matching tag assign that tag, otherwise create and assign a new tag
+    if (tagExists) {
+        tag = {
+            name: tagExists.name,
+            id: tagExists.id
+        }
+   
+    } else {
+        await articlesDao.createTag(tag);
+    }
+
+    await articlesDao.createTagMap(article.id, tag.id);
     res.setToastMessage("Article updated successfully!");
     res.redirect("./my-articles");
 });
@@ -171,45 +200,14 @@ router.post("/search-articles", async function(req, res) {
 
 });
 
-router.post("/rating", verifyAuthenticated, async function (req, res) {
-
-    const articles  = await articlesDao.retrieveAllArticles();
-    //console.log(`allArticles:${articles}`); // ok
-
-    const article = await articlesDao.retrieveArticleBy(req.body.articleID);
-    console.log(`title:${article.title}`); //?
-    
-    // let article = await articlesDao.retrieveArticle(id);
-    console.log(`article:${article}`);
-
-    const rating = req.body.rate;
-    const id = req.body.articleID;
-    const currentRate = req.body.currentRate;
-    const totalRate = parseInt(rating) + parseInt(currentRate);
-    console.log(id);
-    try {
-        await articlesDao.updateRate(totalRate, id);
-        res.setToastMessage("Article rated!");
-        res.redirect("./login");
-    }
-    catch (err) {
-        res.setToastMessage("Unable to update the rate for this article! plz try again!");
-        res.redirect("./login");
-    }
-
-
-});
-
+//When we log in and am verified, we can create a comment and it is stored in database. Then 307 refreshes the page
+// and we are redirected to view-article.
 router.post("/comments", verifyAuthenticated, async function(req, res){
     
     const user = res.locals.user;
-    //console.log(user);
     const articleId = req.body.articleId;
-    //console.log(articleId);
-    console.log(req.body.comments);
     await articlesDao.createComment(req.body.comments, articleId, user.id);
     res.setToastMessage("Comment posted!");
-   
     res.redirect(307, "./view-article"); //307 allows us to route to post, keeps article loaded intact
 });
 
