@@ -34,15 +34,12 @@ app.use(toaster);
 const { addUserToLocals } = require("./middleware/auth-middleware.js");
 app.use(addUserToLocals);
 
-
-
 // Setup routes
 app.use(require("./routes/application-routes.js"));
 app.use(require("./routes/create-account-routes.js"));
 app.use(require("./routes/auth-routes.js"));
 app.use(require("./routes/admin-routes.js"));
 app.use(require("./routes/retrieve-routes.js"));
-
 
 /* New Route to the TinyMCE Node module + TinyMCE */
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));

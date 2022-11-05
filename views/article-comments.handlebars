@@ -1,27 +1,27 @@
 <div class="container col-sm-12">
-    <button type="button" class="btn" onclick="window.location.href='./login';" >Return to home page</button>
-<h2>{{article.title}}</h2>
-<h3>Written by {{article.name}}</h3>
-<h4>Posted on {{article.timestamp}}</h4>
-<div>{{{article.content}}}</div>
-<p>Tags: {{tags}}</p>
-
-<h5>Add Comment:</h5>
-<div><div class="form-group">
-    <form action="./comments" method="post">
-    <input type="hidden" id="articleId"  name="articleId" value="{{article.articleId}}" >
-    <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
-    <button id="post" class="btn">Post</button>
-    </form>
-</div>
-
-<h5>Comments:</h5>
-<ul>
-    {{#each comments}}
-    <li>
-        <p>{{this.timestamp}}</p>
-        <p>{{this.comments}}</p>
-    </li>
-    {{/each}}
-</ul>
+    <div class="container">
+        <button type="button" class="btn" onclick="window.location.href='./login';" >Return to home page</button>
+        <h2>{{article.title}}</h2>
+        <h3>Written by {{article.name}}</h3>
+        <h4>Posted on {{article.timestamp}}</h4>
+        <div>{{{article.content}}}</div>
+        <p>Tags: {{tags}}</p>
+        <h5>Add Comment:</h5>
+        <div class="form-group">
+            <form action="./comments" method="post">
+            <input type="hidden" id="articleId"  name="articleId" value="{{article.articleId}}" >
+            <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
+            <button id="post" class="btn">Post</button>
+            </form>
+        </div>
+        <h5>Comments:</h5>
+        <ul class="commentList">
+            {{#each comments}}
+            <li >
+                <p>{{this.timestamp}}</p>
+                <p>{{this.comments}}</p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
 </div>

@@ -1,119 +1,94 @@
-
 <div class="container col-sm-12">
-
-
-<div class="container">
-{{#unless user}}
-    <div id="login">
-        <div class="dropdown">
-            <button class="dropbtn">Login</button>
-            <div class="dropdown-content">
-                <form action="./login" method="POST">
-                    <div class="flex-col mb">
-                        <label for="txtUsername" class="txt">Username:</label>
-                        <input type="text" id="txtUsername" name="username" required>
-                    </div>
-                    <div class="flex-col mb">
-                        <label for="txtPassword" class="txt">Password:</label>
-                        <input type="password" id="txtPassword" name="password" required>
-                    </div>
-                    <dev class="flex-row justify-sb align-right">
-                        <button class="dropbt" type="submit" class="txt">Submit</button>
-                    </dev>
-                </form>
-                <p>Don't have an account?
-                    <a href="./newAccount">Create one here.</a>
-                </p>
-                <p>Forgot your password? 
-                    <a href="./retrieve">Retrieve here.</a>
-            
-                </p>
+    <div class="container">
+    {{#unless user}}
+        <div id="login">
+            <div class="dropdown">
+                <button class="dropbtn">Login</button>
+                <div class="dropdown-content">
+                    <form action="./login" method="POST">
+                        <div class="flex-col mb">
+                            <label for="txtUsername" class="txt">Username:</label>
+                            <input type="text" id="txtUsername" name="username" required>
+                        </div>
+                        <div class="flex-col mb">
+                            <label for="txtPassword" class="txt">Password:</label>
+                            <input type="password" id="txtPassword" name="password" required>
+                        </div>
+                        <dev class="flex-row justify-sb align-right">
+                            <button class="dropbt" type="submit" class="txt">Submit</button>
+                        </dev>
+                    </form>
+                    <p>Don't have an account?
+                        <a href="./newAccount">Create one here.</a>
+                    </p>
+                    <p>Forgot your password? 
+                        <a href="./retrieve">Retrieve here.</a>
+                
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-{{/unless}}
+    {{/unless}}
+    {{#if user}}
+        <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
+        <p>This is your homepage!</p>
+        <button type="button" class="btn" onclick="window.location.href='./new-article';" >Feel like writing now?</button><br>
+        <button type="button" class="btn" onclick="window.location.href='./my-articles';" >Appreciate my work!</button>
 
+        <p>Click <a href="./logout">here</a> to log out.</p>
+        <p>Click <a href="./edit">here</a> to edit account information.</p>
+        <p>Click <a href="./delete">here</a> to delete account.</p>
+    {{/if}}
+        <div>
+            <h1>All Articles:</h1>
+            <form action="./search-articles" method="post" id="serachForm">
+            <label for="articleSearch"><h4>Search All Articles by Tags:</h4></label>
+            <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
+            <button type="submit" class="btn">Search</button>
+        </form>
+        </div>
+        <div>
+            <ul class="articleList">
+                {{#each articles}}
+                <li >
+                    <h2>{{title}}</h2>
+                    <h3>Written by {{this.name}}</h3>
+                    <h4>Posted on {{this.timestamp}}</h4>
+                    <div>{{{this.content}}}</div>
+                    <p>Tags: {{tags}}</p>
 
-
-{{#if user}}
-    <h1>Hello, {{user.name}}!<img src="./avatar/{{user.avatar}}" width="90" ></h1>
-    <p>This is your homepage!</p>
-    <button type="button" class="btn" onclick="window.location.href='./new-article';" >Feel like writing now?</button><br>
-    <button type="button" class="btn" onclick="window.location.href='./my-articles';" >Appreciate my work!</button>
-
-    <p>Click <a href="./logout">here</a> to log out.</p>
-    <p>Click <a href="./edit">here</a> to edit account information.</p>
-    <p>Click <a href="./delete">here</a> to delete account.</p>
-{{/if}}
-
-    <div>
-        <h1>All Articles:</h1>
-        <form action="./search-articles" method="post">
-        <label for="articleSearch"><h2>Search All Articles by Tags:</h2></label>
-        <input type="text" id="articleSearch" class="txtbox" name="articleSearch" placeholder="Search...">
-        <button type="submit" class="btn">Search</button>
-    </form>
-    </div>
-
-    <div>
-
-        <ul>
-            {{#each articles}}
-            <li>
-                <h2>{{title}}</h2>
-                <h3>Written by {{this.name}}</h3>
-                <h4>Posted on {{this.timestamp}}</h4>
-                <div>{{{this.content}}}</div>
-                <p>Tags: {{tags}}</p>
-
-                <h5>Total Rates: {{this.rate}}</h5>
-                <div class="select-dropdown">
-                    <form action="./rating" method="post" >
-                        <select id="rating" name="rate">
-                            <option value="1">Poor</option>
-                            <option value="2">Fair</option>
-                            <option value="3" selected="selected">Good</option>
-                            <option value="4">Great</option>
-                            <option value="5">Excellent</option>
-                        </select>
-                        <input id="articleID" type="hidden"  name="articleID" value="{{this.id}}">
-                        <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
-                        <button type="submit" class="btn" >Rate!</button>
-                        
-                    </form>
-                </div>
-
-                <div><div class="form-group">
-                    <form action="./view-article" method="post">
-                    <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
-                    <button id="post" class="btn">View Article</button>
-                    </form>
-                </div>
-
-                <h5>Add Comment:</h5>
-                <div><div class="form-group">
-                    <form action="./comments" method="post">
-                    <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
-                    <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
-                    <button id="post" class="btn">Post</button>
-                    </form>
-                </div>
-                
-                <ul>
-                    {{#each ../comments}}
-                    <li>
-                        <p>{{comments}}</p>
-                    </li>
-                    {{/each}}
-                </ul>
-                
-                </div>
-
-            </li>
-            {{/each}}
-        </ul>
-        
-    </div>
-
-    
+                    <h5>Total Rates: {{this.rate}}</h5>
+                    <div class="select-dropdown">
+                        <form action="./rating" method="post" >
+                            <select id="rating" name="rate">
+                                <option value="1">Poor</option>
+                                <option value="2">Fair</option>
+                                <option value="3" selected="selected">Good</option>
+                                <option value="4">Great</option>
+                                <option value="5">Excellent</option>
+                            </select>
+                            <input id="articleID" type="hidden"  name="articleID" value="{{this.id}}">
+                            <input id="currentRate" type="hidden" name="currentRate" value="{{this.rate}}">
+                            <button type="submit" class="btn" >Rate!</button>                    
+                        </form>
+                    </div>
+                    <div class="form-group">
+                        <form action="./view-article" method="post">
+                        <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
+                        <button id="post" class="btn">View Article</button>
+                        </form>
+                    </div>
+                    <h5>Add Comment:</h5>
+                    <div class="form-group">
+                        <form action="./comments" method="post">
+                        <input type="hidden" id="articleId"  name="articleId" value="{{this.articleId}}" >
+                        <input type="text" name="comments" id="comment-box" class="txtbox" placeholder="Enter comment">
+                        <button id="post" class="btn">Post</button>
+                        </form>
+                    </div>                
+                </li>
+                {{/each}}
+            </ul> 
+        </div>       
+    </div>    
 </div>
