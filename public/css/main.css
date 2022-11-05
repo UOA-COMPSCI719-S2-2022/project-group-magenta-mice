@@ -60,36 +60,25 @@ h2, h3, h4{
 
 }
 
-
-
-ul.articleList{
-    position:relative;
-    top:0px;
+.home-container {
+    display: grid;
+    grid-template-areas: "articles search";
+    grid-template-columns: 2fr 1fr;
 }
 
-#searchForm{
-    position:absolute;
-    top:500px;
-    right:0px;
-
-    text-align:left;
-    z-index: 1;
-
-}
 
 @media screen and (max-width: 756px) {
-    ul.articleList{
-        position:relative;
-        top:110px;
-    }
+
     .avatorcontainer {
         display:grid;
         grid-template-columns: 1fr 1fr;
     }
 
-    
+    .home-container {
+        display: grid;
+        grid-template-areas: "search" "articles";
+        grid-template-columns: 1fr;
+
+    }
+
 }
-
-
-
-
