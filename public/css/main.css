@@ -52,14 +52,35 @@ h2, h3, h4{
     text-decoration: underline;
     cursor: pointer;
 
+}
+
+.avatorcontainer {
+   display: flex;
+   flex-direction:row;
+
+}
+
 
 ul.articleList{
     position:relative;
-    top:-120px;
+    top:0px;
 }
 
-#serachForm{
-    float:right;
-    text-align:left;
+#searchForm{
+    position:absolute;
+    top:500px;
+    right:0px;
 
+    text-align:left;
+    z-index: 1;
+
+}
+
+@media screen and (max-width: 756px) {
+    ul.articleList{
+        position:relative;
+        top:110px;
+    }
+
+    
 }

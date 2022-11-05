@@ -12,8 +12,7 @@
                 <h2>{{title}}</h2>
                 <h3>Written by {{name}}</h3>
                 <h4>Posted on {{timestamp}}</h4>
-                <div>{{{content}}}</div>
-                <p>Tags: {{this.tags}}</p>                
+                <div>{{{content}}}</div>              
                 <form name="deleteArticle" action="./delete-article" method="POST">
                     <input type="hidden" name="articleId" id="deleteArticle" value="{{articleId}}">
                     <button type="submit" name="deleteArticle" class="btn">Delete</button>
