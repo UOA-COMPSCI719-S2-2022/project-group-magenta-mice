@@ -63,8 +63,6 @@ router.post("/submit-article", verifyAuthenticated, async function (req, res) {
 
     } 
 
-
-    await articlesDao.createTagMap(article.id, tag.id);
     res.setToastMessage("Article posted!");
     res.redirect("/my-articles");
 
