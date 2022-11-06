@@ -29,8 +29,10 @@ Does the marker need to do anything special to run your webapp, other than runni
 No, npm install should be sufficient to run the webapp
 
 At least one username / password combination for an existing user in your system with some already-published articles 
+Please refer to our video demonstration. 
 
 Any other instructions / comments you wish to make to your markers.
+We can enter multiple tags seperate by ",".
 
 
 
